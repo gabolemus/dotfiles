@@ -1,0 +1,11 @@
+[user]
+	name = Gabriel Lemus
+	email = 49124491+gabolemus@users.noreply.github.com
+[init]
+	defaultBranch = main
+[core]
+  {{- if eq .chezmoi.os "linux" }}
+  editor = nvim
+  {{- else if eq .chezmoi.os "windows" }}
+  editor = \"C:\\Users\\Gabo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code\" --wait
+  {{- end }}
