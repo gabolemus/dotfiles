@@ -1,1 +1,14 @@
 README.md
+
+{{- if ne .chezmoi.os "linux" }}
+# Ignore Linux config on non-Linux devices
+.config/
+.profile
+.zprofile
+.zshrc
+
+{{- else if ne .chezmoi.os "windows" }}
+# Ignore Windows config on non-Windows devices
+Documents/
+.shell-themes/
+{{- end }}

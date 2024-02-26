@@ -1,7 +1,0 @@
-[user]
-	name = Gabriel Lemus
-	email = 49124491+gabolemus@users.noreply.github.com
-[init]
-	defaultBranch = main
-[core]
-	editor = nvim

@@ -134,7 +134,7 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=blue,bold'
 # ZSH_HIGHLIGHT_STYLES[rc-quote]='fg=blue,bold'
 
 # Initialize Oh My Posh
-eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/Oh\ My\ Posh/gabo-blue-owl.omp.json)"
+eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/.shell-themes/gabo-blue-owl.omp.json)"
 
 # Add NVM to PATH
 export NVM_DIR="$HOME/.nvm"
