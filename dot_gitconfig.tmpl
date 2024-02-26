@@ -5,9 +5,7 @@
 	defaultBranch = main
 [core]
   {{- if eq .chezmoi.os "linux" }}
-  # Linux config
   editor = nvim
   {{- else if eq .chezmoi.os "windows" }}
-  # Windows config
   editor = \"C:\\Users\\Gabo\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code\" --wait
   {{- end }}
