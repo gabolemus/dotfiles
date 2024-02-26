@@ -1,26 +1,16 @@
 return {
-    "cpea2506/one_monokai.nvim",
+    "sainnhe/sonokai",
     priority = 1000, -- Load before all the other start plugins
-    name = "one_monokai",
+    name = "sonokai",
     config = function()
-        require("one_monokai").setup({
-            transparent = true,
-            italics = true,
-            colors = {
-                popup_bg = "#1a1a1a",
-            },
-            themes = function(colors)
-                return {
-                    -- Normal = { bg = colors.newbg },
-                    --DiffChange = { fg = colors.white:darken(0.3) },
-                    --ErrorMsg = { fg = colors.pink, standout = true },
-                    ["@lsp.type.keyword"] = { link = "@keyword" },
-                    ["Pmenu"] = { fg = colors.fg, bg = colors.popup_bg },
-                    -- ["PmenuSel"] = { fg = colors.white, bg = colors.pink },
-                }
-            end,
-        })
-
-        vim.cmd.colorscheme("one_monokai")
+        vim.g.sonokai_style = "default"
+        vim.g.sonokai_cursor = "blue"
+        vim.g.sonokai_enable_italic = 1
+        vim.g.sonokai_disable_italic_comment = 1
+        vim.g.sonokai_better_performance = 1
+        vim.g.sonokai_transparent_background = 0
+        vim.g.sonokai_show_eob = 0
+        vim.g.sonokai_dim_inactive_windows = 1
+        vim.cmd.colorscheme("sonokai")
     end,
 }
