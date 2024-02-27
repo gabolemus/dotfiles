@@ -8,8 +8,8 @@ bindkey -e
 # Aliases
 alias ls='ls --color=auto'
 alias vim='nvim'
-alias hx='helix'
 alias sysupdate='pacman -Syu --noconfirm && yay -Syu --noconfirm'
+alias rstm='vim -c ":q"'
 
 # WSL specific aliases
 alias explorer='/mnt/c/Windows/explorer.exe'
@@ -110,8 +110,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
 # Zsh plugins
-source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/gabo/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /home/gabo/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Override Zsh syntax highlighting styles
 typeset -A ZSH_HIGHLIGHT_STYLES
