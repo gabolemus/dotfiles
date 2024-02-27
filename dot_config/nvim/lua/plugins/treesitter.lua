@@ -18,8 +18,6 @@ return {
                 "json",
                 "javascript",
                 "typescript",
-                -- "javascriptreact",
-                -- "typescriptreact",
                 "tsx",
                 "html",
                 "css",

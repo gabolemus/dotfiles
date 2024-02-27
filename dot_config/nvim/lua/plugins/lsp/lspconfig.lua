@@ -71,10 +71,8 @@ return {
         -- LSPs to be configured with default settings
         local servers = {
             "html",
-            -- "tsserver",
             "cssls",
             "eslint",
-            -- "pyright",
             "rust_analyzer",
             "clangd",
         }
@@ -161,19 +159,11 @@ return {
             filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
         })
 
-        -- Configure Apex language server
-        lspconfig["apex_ls"].setup({
+        -- Omnisharp (C#) language server
+        lspconfig["omnisharp"].setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            apex_jar_path = "/home/gabo/Downloads/apex-jorje-lsp.jar",
-            cmd = {
-                "java",
-                "-jar",
-                "/home/gabo/Downloads/apex-jorje-lsp.jar",
-                "apex_language_server",
-            },
-            apex_enable_semantic_errors = false,
-            apex_enable_completion_statistics = false,
+            cmd = { "dotnet", "/home/gabo/Downloads/OmniSharp.dll" },
         })
 
         -- Latex language server
@@ -199,11 +189,10 @@ return {
                         globals = { "vim" },
                     },
                     workspace = {
-                        --Make language server aware of runtime files
+                        -- Make the LSP aware of the runtime files
                         library = {
                             [vim.fn.expand("$VIMRUNTIME/lua")] = true,
                             [vim.fn.stdpath("config") .. "/lua"] = true,
-                            -- ["${3rd}/love2d/library"] = true, -- Love2D library
                         },
                     },
                 },
