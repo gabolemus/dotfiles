@@ -8,7 +8,6 @@ bindkey -e
 # Aliases
 alias ls='ls --color=auto'
 alias vim='nvim'
-alias hx='helix'
 alias sysupdate='pacman -Syu --noconfirm && yay -Syu --noconfirm'
 
 # WSL specific aliases
