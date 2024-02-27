@@ -25,13 +25,6 @@ return {
                 async = false,
                 timeout_ms = 500,
             },
-            -- format = {
-            --     callback = function()
-            --         if vim.bo.filetype == "lua" then
-            --             vim.lsp.buf.format()
-            --         end
-            --     end,
-            -- },
         })
 
         vim.keymap.set({ "n", "v" }, "<leader>mp", function()

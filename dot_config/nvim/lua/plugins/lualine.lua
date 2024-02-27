@@ -24,10 +24,6 @@ return {
                 },
             },
             sections = {
-                -- lualine_c = {
-                --     "buffers",
-                --     "filename",
-                -- },
                 lualine_x = {
                     {
                         lazy_status.updates,

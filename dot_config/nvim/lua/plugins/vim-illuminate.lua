@@ -1,7 +1,7 @@
 return {
     "RRethy/vim-illuminate",
     config = function()
-        -- vim.cmd("hi IlluminatedWordRead guibg=#4a4a4a")
+        vim.cmd("hi IlluminatedWordRead guibg=#3a425c")
 
         require("illuminate").configure({
             -- providers: provider used to get references in the buffer, ordered by priority

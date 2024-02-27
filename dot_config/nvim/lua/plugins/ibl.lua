@@ -57,10 +57,6 @@ return {
             "ternary_expression",
             "return_statement",
             "parenthesized_expression",
-            -- "jsx_element",
-            -- "jsx_self_closing_element",
-            -- "jsx_closing_element",
-            -- "jsx_expression",
         }
 
         ibl.setup({

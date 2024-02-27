@@ -6,8 +6,6 @@ return {
         "rcarriga/nvim-dap-ui",
     },
     config = function()
-        -- local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-        -- local path = vim.fn.expand("$HOME/src/Learning/Python/Flask/learning-flask/bin/python")
         local path = vim.fn.exepath("python3")
         local dap_python = require("dap-python")
         dap_python.setup(path)

@@ -1,6 +1,6 @@
 return {
     "sainnhe/sonokai",
-    priority = 1000, -- Load before all the other start plugins
+    priority = 1000, -- Load before all the other plugins
     name = "sonokai",
     config = function()
         vim.g.sonokai_style = "default"
