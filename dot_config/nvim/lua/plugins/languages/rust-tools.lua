@@ -5,8 +5,6 @@ return {
     },
     ft = "rust",
     config = function()
-        -- local lspconfig = require("lspconfig")
-        -- local lsp_util = require("lspconfig/util")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local opts = { noremap = true, silent = true }
 
