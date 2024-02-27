@@ -9,6 +9,7 @@ README.md
 
 {{- else if ne .chezmoi.os "windows" }}
 # Ignore Windows config on non-Windows devices
+AppData/
 Documents/
 .shell-themes/
 {{- end }}
