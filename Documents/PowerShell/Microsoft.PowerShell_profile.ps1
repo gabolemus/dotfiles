@@ -1,5 +1,5 @@
 # oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\blue-owl.omp.json" | Invoke-Expression
-oh-my-posh init pwsh --config "$HOME\.shell-themes\gabo-blue-owl.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "$HOME\Documents\Shell Themes\gabo-blue-owl.omp.json" | Invoke-Expression
 
 # Temporary minimal prompt string
 # function prompt { "`n❯ " }
