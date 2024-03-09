@@ -1,0 +1,258 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "CreationDate": "2024-03-02T21:12:56.875-00:00",
+  "Sources": [
+    {
+      "Packages": [
+        {
+          "PackageIdentifier": "Bitwarden.Bitwarden"
+        },
+        {
+          "PackageIdentifier": "CoreyButler.NVMforWindows"
+        },
+        {
+          "PackageIdentifier": "Audacity.Audacity"
+        },
+        {
+          "PackageIdentifier": "Brave.Brave"
+        },
+        {
+          "PackageIdentifier": "BurntSushi.ripgrep.MSVC"
+        },
+        {
+          "PackageIdentifier": "Discord.Discord"
+        },
+        {
+          "PackageIdentifier": "Docker.DockerDesktop"
+        },
+        {
+          "PackageIdentifier": "GIMP.GIMP"
+        },
+        {
+          "PackageIdentifier": "Genymobile.scrcpy"
+        },
+        {
+          "PackageIdentifier": "Git.Git"
+        },
+        {
+          "PackageIdentifier": "Love2d.Love2d"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Teams"
+        },
+        {
+          "PackageIdentifier": "MiKTeX.MiKTeX"
+        },
+        {
+          "PackageIdentifier": "Microsoft.EdgeWebView2Runtime"
+        },
+        {
+          "PackageIdentifier": "Microsoft.MouseandKeyboardCenter"
+        },
+        {
+          "PackageIdentifier": "Microsoft.AppInstaller"
+        },
+        {
+          "PackageIdentifier": "Microsoft.UI.Xaml.2.7"
+        },
+        {
+          "PackageIdentifier": "Microsoft.UI.Xaml.2.8"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCLibs.Desktop.14"
+        },
+        {
+          "PackageIdentifier": "Microsoft.DevHome"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WindowsTerminal"
+        },
+        {
+          "PackageIdentifier": "Mozilla.Firefox.ESR"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Office"
+        },
+        {
+          "PackageIdentifier": "OBSProject.OBSStudio"
+        },
+        {
+          "PackageIdentifier": "JanDeDobbeleer.OhMyPosh"
+        },
+        {
+          "PackageIdentifier": "Microsoft.OneDrive"
+        },
+        {
+          "PackageIdentifier": "Playnite.Playnite"
+        },
+        {
+          "PackageIdentifier": "Rclone.Rclone"
+        },
+        {
+          "PackageIdentifier": "Libretro.RetroArch"
+        },
+        {
+          "PackageIdentifier": "Rufus.Rufus"
+        },
+        {
+          "PackageIdentifier": "Rustlang.Rustup"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Skype"
+        },
+        {
+          "PackageIdentifier": "Spotify.Spotify"
+        },
+        {
+          "PackageIdentifier": "Valve.Steam"
+        },
+        {
+          "PackageIdentifier": "WinDirStat.WinDirStat"
+        },
+        {
+          "PackageIdentifier": "RamenSoftware.Windhawk"
+        },
+        {
+          "PackageIdentifier": "Obsidian.Obsidian"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
+        },
+        {
+          "PackageIdentifier": "Insomnia.Insomnia"
+        },
+        {
+          "PackageIdentifier": "ItchIo.Itch"
+        },
+        {
+          "PackageIdentifier": "KDE.Kdenlive"
+        },
+        {
+          "PackageIdentifier": "JeffreyPfau.mGBA"
+        },
+        {
+          "PackageIdentifier": "mtkennerly.ludusavi"
+        },
+        {
+          "PackageIdentifier": "qBittorrent.qBittorrent"
+        },
+        {
+          "PackageIdentifier": "twpayne.chezmoi"
+        },
+        {
+          "PackageIdentifier": "WinSCP.WinSCP"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2013.x64"
+        },
+        {
+          "PackageIdentifier": "SoftDeluxe.FreeDownloadManager"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2010.x64"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerToys"
+        },
+        {
+          "PackageIdentifier": "7zip.7zip"
+        },
+        {
+          "PackageIdentifier": "Inkscape.Inkscape"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2012.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2015+.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.CLRTypesSQLServer.2019"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2008.x64"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WebDeploy"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2005.x86"
+        },
+        {
+          "PackageIdentifier": "GOG.Galaxy"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WindowsSDK.10.0.20348"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudioCode"
+        },
+        {
+          "PackageIdentifier": "Google.Chrome"
+        },
+        {
+          "PackageIdentifier": "SomePythonThings.WingetUIStore"
+        },
+        {
+          "PackageIdentifier": "calibre.calibre"
+        },
+        {
+          "PackageIdentifier": "Intel.IntelDriverAndSupportAssistant"
+        },
+        {
+          "PackageIdentifier": "ViGEm.ViGEmBus"
+        },
+        {
+          "PackageIdentifier": "VideoLAN.VLC"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2008.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2013.x86"
+        },
+        {
+          "PackageIdentifier": "Sejda.PDFDesktop"
+        },
+        {
+          "PackageIdentifier": "voidtools.Everything"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerShell"
+        },
+        {
+          "PackageIdentifier": "EpicGames.EpicGamesLauncher"
+        },
+        {
+          "PackageIdentifier": "Texmaker.Texmaker"
+        },
+        {
+          "PackageIdentifier": "Microsoft.XNARedist"
+        },
+        {
+          "PackageIdentifier": "StrawberryPerl.StrawberryPerl"
+        },
+        {
+          "PackageIdentifier": "Dell.CommandUpdate.Universal"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2010.x86"
+        },
+        {
+          "PackageIdentifier": "gerardog.gsudo"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2015+.x64"
+        }
+      ],
+      "SourceDetails": {
+        "Argument": "https://cdn.winget.microsoft.com/cache",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+        "Name": "winget",
+        "Type": "Microsoft.PreIndexed.Package"
+      }
+    }
+  ],
+  "WinGetVersion": "1.7.10582"
+}
+
