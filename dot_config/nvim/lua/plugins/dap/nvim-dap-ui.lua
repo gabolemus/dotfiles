@@ -9,7 +9,8 @@ return {
         -- Enable the UI
         dapui.setup()
         dap.listeners.after.event_initialized["dapui_config"] = function()
-            vim.cmd("NvimTreeClose")
+            -- vim.cmd("NvimTreeClose")
+            vim.cmd("Neotree close")
             dapui.open()
         end
         dap.listeners.before.event_terminated["dapui_config"] = function()
@@ -17,7 +18,8 @@ return {
         end
         dap.listeners.before.event_exited["dapui_config"] = function()
             dapui.close()
-            vim.cmd("NvimTreeOpen")
+            -- vim.cmd("NvimTreeOpen")
+            vim.cmd("Neotree show")
         end
 
         -- Debugging icons
@@ -54,8 +56,9 @@ return {
         vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
         vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
         vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
-        vim.keymap.set("n", "<S-F11>", dap.step_out, { desc = "Debug: Step Out" })
-        vim.keymap.set("n", "<C-S-F5>", dap.restart, { desc = "Debug: Restart" })
-        vim.keymap.set("n", "<S-F5>", dap.stop, { desc = "Debug: Stop" })
+        -- Todo: check how to enable Shift + function keys
+        vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
+        vim.keymap.set("n", "<F6>", dap.restart, { desc = "Debug: Restart" })
+        vim.keymap.set("n", "<F4>", dap.close, { desc = "Debug: Stop" })
     end,
 }
