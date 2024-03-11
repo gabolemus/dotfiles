@@ -10,10 +10,17 @@ return {
         local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local opts = { noremap = true, silent = true }
+        -- local util = require("lspconfig/util")
 
-        -- Give floating windows borders
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+        -- -- Give floating windows borders
+        -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+        -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        --     focusable = true,
+        --     style = "minimal",
+        --     border = "none",
+        -- })
 
+        -- Todo: refactor this definitions so that they can both be used with RustaceanNvim
         local on_attach = function(_, bufnr)
             opts.buffer = bufnr
 
@@ -73,7 +80,6 @@ return {
             "html",
             "cssls",
             "eslint",
-            "rust_analyzer",
             "clangd",
         }
 
@@ -109,6 +115,19 @@ return {
                 },
             },
         })
+
+        -- -- Configure Rust language server
+        -- lspconfig["rust_analyzer"].setup({
+        --     capabilities = capabilities,
+        --     on_attach = on_attach,
+        --     filetypes = { "rust" },
+        --     root_dir = util.root_pattern("Cargo.toml"),
+        --     ["rust-analyzer"] = {
+        --         cargo = {
+        --             allFeatures = true,
+        --         },
+        --     },
+        -- })
 
         -- Configure Python language server
         lspconfig["pyright"].setup({

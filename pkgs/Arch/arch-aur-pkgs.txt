@@ -1,0 +1,8 @@
+akku
+aseprite
+fakeroot-tcp
+jdtls
+nvm
+oh-my-posh
+pyenv-virtualenv
+tmux-bash-completion-git

@@ -34,26 +34,102 @@ return {
             },
         }
 
+        -- -- CodeLLDB debug adapter
+        -- dap.adapters["lldb"] = {
+        --     type = "executable",
+        --     command = "/usr/bin/lldb-vscode",
+        --     name = "lldb",
+        -- }
+        --
+        -- -- Rust
+        -- dap.configurations["rust"] = {
+        --     {
+        --         name = "Launch",
+        --         type = "lldb",
+        --         request = "launch",
+        --         program = function()
+        --             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+        --         end,
+        --         cwd = "${workspaceFolder}",
+        --         stopOnEntry = false,
+        --         args = {},
+        --
+        --         -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+        --         --
+        --         --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+        --         --
+        --         -- Otherwise you might get the following error:
+        --         --
+        --         --    Error on launch: Failed to attach to the target process
+        --         --
+        --         -- But you should be aware of the implications:
+        --         -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+        --         -- runInTerminal = false,
+        --     },
+        -- }
+
         -- Node debug adapter
         dap.adapters["pwa-node"] = {
             type = "server",
-            host = "127.0.0.1",
-            port = 8123,
+            host = "localhost",
+            port = "${port}",
             executable = {
-                command = "js-debug-adapter",
+                command = "node",
+                args = {
+                    require("mason-registry").get_package("js-debug-adapter"):get_install_path()
+                    .. "/js-debug/src/dapDebugServer.js",
+                    "${port}",
+                },
             },
         }
 
         -- JavaScript and TypeScript debug configurations with pwa-node
+        -- Todo: add javascriptreact and typescriptreact to the configs
         for _, language in ipairs({ "javascript", "typescript" }) do
             dap.configurations[language] = {
+                -- Debug single NodeJS files
                 {
                     type = "pwa-node",
                     request = "launch",
                     name = "Launch file",
                     program = "${file}",
                     cwd = "${workspaceFolder}",
-                    runtimeExecutable = "node",
+                    sourceMaps = true,
+                },
+                -- Debug NodeJS processes
+                {
+                    type = "pwa-node",
+                    request = "attach",
+                    name = "Attach",
+                    processId = require("dap.utils").pick_process,
+                    cwd = "${workspaceFolder}",
+                    sourceMaps = true,
+                },
+                -- Debug web applications (client side)
+                {
+                    type = "pwa-chrome",
+                    request = "launch",
+                    name = "Launch & Debug Chrome",
+                    url = function()
+                        local co = coroutine.running()
+                        return coroutine.create(function()
+                            vim.ui.input({
+                                prompt = "Enter URL: ",
+                                default = "http://localhost:3000",
+                            }, function(url)
+                                if url == nil or url == "" then
+                                    return
+                                else
+                                    coroutine.resume(co, url)
+                                end
+                            end)
+                        end)
+                    end,
+                    webRoot = "${workspaceFolder}",
+                    skipFiles = { "<node_internals>/**/*.js" },
+                    protocol = "inspector",
+                    sourceMaps = true,
+                    userDataDir = false,
                 },
             }
         end

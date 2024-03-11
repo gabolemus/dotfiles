@@ -1,4 +1,5 @@
 README.md
+pkgs/
 
 {{- if ne .chezmoi.os "linux" }}
 # Ignore Linux config on non-Linux devices

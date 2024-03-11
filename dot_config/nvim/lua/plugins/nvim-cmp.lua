@@ -17,6 +17,10 @@ return {
         -- Loads VS Code style snippets from installed plugins
         require("luasnip.loaders.from_vscode").lazy_load()
 
+        -- Completion highligh colors groups
+        vim.api.nvim_set_hl(0, "CmpHighlight", { bg = "#85d3f2", fg = "#2d3137" })
+        vim.api.nvim_set_hl(0, "CmpDocumentation", { bg = "#363944", fg = "#FFFFFF" })
+
         cmp.setup({
             completion = {
                 completeopt = "menu,menuone,preview,noselect",
@@ -25,6 +29,16 @@ return {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
                 end,
+            },
+            window = {
+                completion = {
+                    border = "rounded",
+                    winhighlight = "CursorLine:CmpHighlight",
+                },
+                documentation = {
+                    border = "rounded",
+                    winhighlight = "Normal:CmpDocumentation,FloatBorder:Floatborder,CursorLine:Visual,Search:None",
+                },
             },
             mapping = cmp.mapping.preset.insert({
                 ["<C-k>"] = cmp.mapping.select_prev_item(), -- Previous suggestion
@@ -54,11 +68,11 @@ return {
             -- Sources for autocompletion
             sources = cmp.config.sources({
                 -- { name = "copilot", group_index = 2 }, -- Copilot config
-                { name = "nvim_lsp" },                 -- LSP
-                { name = "luasnip" },                  -- Snippets
-                { name = "buffer" },                   -- Text within current buffer
-                { name = "path" },                     -- File system paths
-                { name = "crates" },                   -- Rust crates
+                { name = "nvim_lsp" }, -- LSP
+                { name = "luasnip" },  -- Snippets
+                { name = "buffer" },   -- Text within current buffer
+                { name = "path" },     -- File system paths
+                { name = "crates" },   -- Rust crates
             }),
             -- Configure lspkind for VS Code like pictograms in completion menu
             formatting = {
