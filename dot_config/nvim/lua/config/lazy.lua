@@ -40,6 +40,16 @@ function ColorNvimTree()
     vim.cmd("highlight NvimTreeEmptyFolderName guifg=#61AFEF")
     vim.cmd("highlight NvimTreeOpenedFolderName guifg=#61AFEF")
     vim.cmd("highlight NvimTreeSymlinkFolderName guifg=#61AFEF")
+
+    -- Highlight groups
+    vim.cmd("highlight NeoTreeDirectoryIcon guifg=#EABD40")
+    -- vim.cmd("highlight NvimTreeOpenedFolderIcon guifg=#EABD40")
+    -- vim.cmd("highlight NvimTreeClosedFolderIcon guifg=#EABD40")
+
+    vim.cmd("highlight NeoTreeDirectoryName guifg=#61AFEF")
+    -- vim.cmd("highlight NvimTreeEmptyFolderName guifg=#61AFEF")
+    -- vim.cmd("highlight NvimTreeOpenedFolderName guifg=#61AFEF")
+    -- vim.cmd("highlight NvimTreeSymlinkFolderName guifg=#61AFEF")
 end
 
 local coloring_timeout = 100
@@ -48,7 +58,7 @@ local coloring_timeout = 100
 -- This is a workaround given that the highlight groups for NvimTree appear to
 -- need to be set after the plugin is loaded.
 -- Todo: Find a better way to do this
-vim.defer_fn(ColorNvimTree, coloring_timeout)
+-- vim.defer_fn(ColorNvimTree, coloring_timeout)
 
 -- Call vim.lsp.buf.format()
 function LspFormat()
