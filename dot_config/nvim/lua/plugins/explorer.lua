@@ -16,12 +16,7 @@ return {
             -- Only sources listed here will be loaded.
             -- You can also add an external source by adding it's name to this list.
             -- The name used here must be the same name you would use in a require() call.
-            sources = {
-                "filesystem",
-                "buffers",
-                "git_status",
-                -- "document_symbols",
-            },
+            sources = { "filesystem", "buffers", "git_status", "document_symbols" },
             add_blank_line_at_top = false,            -- Add a blank line at the top of the tree.
             auto_clean_after_session_restore = false, -- Automatically clean up broken neo-tree buffers saved in sessions
             close_if_last_window = false,             -- Close Neo-tree if it is the last window left in the tab
