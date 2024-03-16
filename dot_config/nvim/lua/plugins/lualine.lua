@@ -9,6 +9,7 @@ return {
 
         lualine.setup({
             options = {
+                globalstatus = true,
             },
             sections = {
                 lualine_x = {
