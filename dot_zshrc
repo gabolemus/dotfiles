@@ -10,6 +10,7 @@ alias ls='ls --color=auto'
 alias vim='nvim'
 alias sysupdate='sudo pacman -Syu --noconfirm && yay -Sua --noconfirm'
 alias rstm='vim -c ":q"'
+alias rustrepl='evcxr'
 
 # WSL specific aliases
 alias explorer='/mnt/c/Windows/explorer.exe'
