@@ -9,20 +9,6 @@ return {
 
         lualine.setup({
             options = {
-                disabled_filetypes = {
-                    -- "NvimTree",
-                    -- "neo-tree",
-                    -- "undotree",
-                    -- "diff",
-                    -- "help",
-                    -- "qf",
-                    -- "dapui_scopes",
-                    -- "dapui_breakpoints",
-                    -- "dapui_stacks",
-                    -- "dapui_watches",
-                    -- "dapui_repl",
-                    -- "dapui_console",
-                },
             },
             sections = {
                 lualine_x = {
