@@ -12,13 +12,13 @@ return {
         local opts = { noremap = true, silent = true }
         -- local util = require("lspconfig/util")
 
-        -- -- Give floating windows borders
-        -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-        -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        --     focusable = true,
-        --     style = "minimal",
-        --     border = "none",
-        -- })
+        -- Give floating windows borders
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+            focusable = true,
+            style = "minimal",
+            border = "rounded",
+        })
 
         -- Todo: refactor this definitions so that they can both be used with RustaceanNvim
         local on_attach = function(_, bufnr)
@@ -122,9 +122,11 @@ return {
         --     on_attach = on_attach,
         --     filetypes = { "rust" },
         --     root_dir = util.root_pattern("Cargo.toml"),
-        --     ["rust-analyzer"] = {
-        --         cargo = {
-        --             allFeatures = true,
+        --     settings = {
+        --         ["rust-analyzer"] = {
+        --             cargo = {
+        --                 allFeatures = true,
+        --             },
         --         },
         --     },
         -- })
@@ -185,17 +187,17 @@ return {
             cmd = { "dotnet", "/home/gabo/Downloads/OmniSharp.dll" },
         })
 
-        -- Latex language server
-        lspconfig["ltex"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-                ltex = {
-                    language = "en-US",
-                    checkFrequency = "save",
-                },
-            },
-        })
+        -- -- Latex language server
+        -- lspconfig["ltex"].setup({
+        --     capabilities = capabilities,
+        --     on_attach = on_attach,
+        --     settings = {
+        --         ltex = {
+        --             language = "en-US",
+        --             checkFrequency = "save",
+        --         },
+        --     },
+        -- })
 
         -- Configure lua server (with special settings)
         lspconfig["lua_ls"].setup({

@@ -16,12 +16,7 @@ return {
             -- Only sources listed here will be loaded.
             -- You can also add an external source by adding it's name to this list.
             -- The name used here must be the same name you would use in a require() call.
-            sources = {
-                "filesystem",
-                "buffers",
-                "git_status",
-                -- "document_symbols",
-            },
+            sources = { "filesystem", "buffers", "git_status", "document_symbols" },
             add_blank_line_at_top = false,            -- Add a blank line at the top of the tree.
             auto_clean_after_session_restore = false, -- Automatically clean up broken neo-tree buffers saved in sessions
             close_if_last_window = false,             -- Close Neo-tree if it is the last window left in the tab
@@ -108,7 +103,12 @@ return {
                     handler = function()
                         -- Change highlight groups
                         vim.cmd("highlight NeoTreeDirectoryIcon guifg=#EABD40")
-                        vim.cmd("highlight NeoTreeDirectoryName guifg=#61AFEF")
+                        vim.cmd("highlight NeoTreeDirectoryName guifg=Normal")
+                        -- vim.cmd("highlight NeoTreeDirectoryName guifg=#61AFEF")
+                        vim.cmd("highlight NeoTreeIndentMarker guifg=#999999")
+                        vim.cmd("highlight NeoTreeExpander guifg=#BDBDBD")
+                        -- vim.cmd("highlight NeoTreeGitUntracked guifg=#41AC91")
+                        vim.cmd("highlight NeoTreeGitUntracked guifg=#61AFEF")
                     end,
                 },
                 --  {
@@ -211,9 +211,9 @@ return {
                     last_indent_marker = "└",
                     highlight = "NeoTreeIndentMarker",
                     -- expander config, needed for nesting files
-                    with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
-                    expander_collapsed = "",
-                    expander_expanded = "",
+                    with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+                    expander_collapsed = "",
+                    expander_expanded = "",
                     expander_highlight = "NeoTreeExpander",
                 },
                 icon = {
@@ -243,7 +243,7 @@ return {
                     symbols = {
                         -- Change type
                         added = "✚", -- NOTE: you can set any of these to an empty string to not show them
-                        deleted = "✖",
+                        deleted = "🗙",
                         modified = "",
                         renamed = "󰁕",
                         -- Status type
@@ -284,13 +284,19 @@ return {
                     {
                         "container",
                         content = {
-                            { "name",      zindex = 10 },
+                            {
+                                "name",
+                                zindex = 10,
+                            },
                             {
                                 "symlink_target",
                                 zindex = 10,
                                 highlight = "NeoTreeSymbolicLinkTarget",
                             },
-                            { "clipboard", zindex = 10 },
+                            {
+                                "clipboard",
+                                zindex = 10,
+                            },
                             {
                                 "diagnostics",
                                 errors_only = true,
@@ -298,11 +304,32 @@ return {
                                 align = "right",
                                 hide_when_expanded = true,
                             },
-                            { "git_status",    zindex = 10, align = "right", hide_when_expanded = true },
-                            { "file_size",     zindex = 10, align = "right" },
-                            { "type",          zindex = 10, align = "right" },
-                            { "last_modified", zindex = 10, align = "right" },
-                            { "created",       zindex = 10, align = "right" },
+                            {
+                                "git_status",
+                                zindex = 10,
+                                align = "right",
+                                hide_when_expanded = true,
+                            },
+                            {
+                                "file_size",
+                                zindex = 10,
+                                align = "right",
+                            },
+                            {
+                                "type",
+                                zindex = 10,
+                                align = "right",
+                            },
+                            {
+                                "last_modified",
+                                zindex = 10,
+                                align = "right",
+                            },
+                            {
+                                "created",
+                                zindex = 10,
+                                align = "right",
+                            },
                         },
                     },
                 },
@@ -467,7 +494,7 @@ return {
                 async_directory_scan = "auto", -- "auto"   means refreshes are async, but it's synchronous when called from the Neotree commands.
                 -- "always" means directory scans are always async.
                 -- "never"  means directory scans are never async.
-                scan_mode = "shallow",            -- "shallow": Don't scan into directories to detect possible empty directory a priori
+                scan_mode = "deep",               -- "shallow": Don't scan into directories to detect possible empty directory a priori
                 -- "deep": Scan into directories to detect empty or grouped empty directories a priori.
                 bind_to_cwd = true,               -- true creates a 2-way binding between vim's cwd and neo-tree's root
                 cwd_target = {
@@ -547,7 +574,7 @@ return {
                 search_limit = 50,                      -- max number of search results when using filters
                 follow_current_file = {
                     enabled = false,                    -- This will find and focus the file in the active buffer every time
-                    --               -- the current file is changed while the tree is open.
+                    --                                  -- the current file is changed while the tree is open.
                     leave_dirs_open = false,            -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
                 },
                 hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
@@ -555,7 +582,7 @@ return {
                 -- "open_current",-- netrw disabled, opening a directory opens within the
                 -- window like netrw would, regardless of window.position
                 -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-                use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+                use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
                 -- instead of relying on nvim autocmd events.
             },
             buffers = {

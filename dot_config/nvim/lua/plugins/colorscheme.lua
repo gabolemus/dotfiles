@@ -11,6 +11,9 @@ return {
         vim.g.sonokai_transparent_background = 0
         vim.g.sonokai_show_eob = 0
         vim.g.sonokai_dim_inactive_windows = 1
+        vim.g.sonokai_diagnostic_text_highlight = 1
+        vim.g.sonokai_diagnostic_line_highlight = 1
+        vim.g.sonokai_diagnostic_virtual_text = "highlighted"
         vim.cmd.colorscheme("sonokai")
     end,
 }
