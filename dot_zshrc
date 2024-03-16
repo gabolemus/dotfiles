@@ -8,7 +8,7 @@ bindkey -e
 # Aliases
 alias ls='ls --color=auto'
 alias vim='nvim'
-alias sysupdate='pacman -Syu --noconfirm && yay -Syu --noconfirm'
+alias sysupdate='sudo pacman -Syu --noconfirm && yay -Sua --noconfirm'
 alias rstm='vim -c ":q"'
 
 # WSL specific aliases
