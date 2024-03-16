@@ -19,6 +19,9 @@ alias love='/mnt/c/Program\ Files/LOVE/love.exe'
 # Shell variables
 export EDITOR="nvim"
 
+# General settings
+set -o noclobber # Prevent overwriting files with `>`
+
 # Setopts
 setopt SHARE_HISTORY
 
