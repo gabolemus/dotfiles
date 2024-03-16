@@ -187,17 +187,17 @@ return {
             cmd = { "dotnet", "/home/gabo/Downloads/OmniSharp.dll" },
         })
 
-        -- Latex language server
-        lspconfig["ltex"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-                ltex = {
-                    language = "en-US",
-                    checkFrequency = "save",
-                },
-            },
-        })
+        -- -- Latex language server
+        -- lspconfig["ltex"].setup({
+        --     capabilities = capabilities,
+        --     on_attach = on_attach,
+        --     settings = {
+        --         ltex = {
+        --             language = "en-US",
+        --             checkFrequency = "save",
+        --         },
+        --     },
+        -- })
 
         -- Configure lua server (with special settings)
         lspconfig["lua_ls"].setup({
