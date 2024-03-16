@@ -122,9 +122,11 @@ return {
         --     on_attach = on_attach,
         --     filetypes = { "rust" },
         --     root_dir = util.root_pattern("Cargo.toml"),
-        --     ["rust-analyzer"] = {
-        --         cargo = {
-        --             allFeatures = true,
+        --     settings = {
+        --         ["rust-analyzer"] = {
+        --             cargo = {
+        --                 allFeatures = true,
+        --             },
         --         },
         --     },
         -- })
