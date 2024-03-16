@@ -103,7 +103,12 @@ return {
                     handler = function()
                         -- Change highlight groups
                         vim.cmd("highlight NeoTreeDirectoryIcon guifg=#EABD40")
-                        vim.cmd("highlight NeoTreeDirectoryName guifg=#61AFEF")
+                        vim.cmd("highlight NeoTreeDirectoryName guifg=Normal")
+                        -- vim.cmd("highlight NeoTreeDirectoryName guifg=#61AFEF")
+                        vim.cmd("highlight NeoTreeIndentMarker guifg=#999999")
+                        vim.cmd("highlight NeoTreeExpander guifg=#BDBDBD")
+                        -- vim.cmd("highlight NeoTreeGitUntracked guifg=#41AC91")
+                        vim.cmd("highlight NeoTreeGitUntracked guifg=#61AFEF")
                     end,
                 },
                 --  {
