@@ -12,13 +12,13 @@ return {
         local opts = { noremap = true, silent = true }
         -- local util = require("lspconfig/util")
 
-        -- -- Give floating windows borders
-        -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-        -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        --     focusable = true,
-        --     style = "minimal",
-        --     border = "none",
-        -- })
+        -- Give floating windows borders
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+            focusable = true,
+            style = "minimal",
+            border = "rounded",
+        })
 
         -- Todo: refactor this definitions so that they can both be used with RustaceanNvim
         local on_attach = function(_, bufnr)
