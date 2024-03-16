@@ -35,36 +35,68 @@ return {
         }
 
         -- -- CodeLLDB debug adapter
-        -- dap.adapters["lldb"] = {
-        --     type = "executable",
-        --     command = "/usr/bin/lldb-vscode",
-        --     name = "lldb",
+        -- dap.adapters["codelldb"] = {
+        --     type = "server",
+        --     port = "${port}",
+        --     executable = {
+        --         command = require("mason-registry").get_package("codelldb"):get_install_path()
+        --             .. "/extension/adapter/codelldb",
+        --         args = { "--port", "${port}" },
+        --         -- detached = false,
+        --     },
         -- }
         --
         -- -- Rust
         -- dap.configurations["rust"] = {
         --     {
-        --         name = "Launch",
-        --         type = "lldb",
+        --         name = "Debug with codelldb",
+        --         type = "codelldb",
         --         request = "launch",
         --         program = function()
-        --             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+        --             vim.fn.jobstart("cargo build")
+        --             return vim.fn.input({
+        --                 prompt = "Path to executable: ",
+        --                 default = vim.fn.getcwd() .. "/",
+        --                 completion = "file",
+        --             })
         --         end,
         --         cwd = "${workspaceFolder}",
         --         stopOnEntry = false,
-        --         args = {},
+        --         sourceLanguages = { "rust" },
+        --         showDisassembly = "never",
+        --     },
+        --     {
+        --         name = "Debug tests",
+        --         type = "codelldb",
+        --         request = "launch",
+        --         program = function()
+        --             vim.fn.jobstart("cargo test --no-run")
         --
-        --         -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-        --         --
-        --         --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-        --         --
-        --         -- Otherwise you might get the following error:
-        --         --
-        --         --    Error on launch: Failed to attach to the target process
-        --         --
-        --         -- But you should be aware of the implications:
-        --         -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-        --         -- runInTerminal = false,
+        --             -- -- The debuggable file will be in the target/debug directory
+        --             -- -- But there'll be other files, so we need to filter the one
+        --             -- -- without an extension.
+        --             -- local files = vim.fn.glob(vim.fn.getcwd() .. "/target/debug/*")
+        --             -- local file = ""
+        --             -- for _, f in ipairs(files) do
+        --             --     if not string.match(f, "%..+") then
+        --             --         file = f
+        --             --         break
+        --             --     end
+        --             -- end
+        --             return vim.fn.input({
+        --                 prompt = "Path to test executable: ",
+        --                 -- Present the whole path, but only use the directory
+        --                 -- as the default value.
+        --                 -- default = file,
+        --                 default = vim.fn.getcwd() .. "/target/debug/",
+        --                 completion = "file",
+        --             })
+        --         end,
+        --         problemMatcher = { "$rustc" },
+        --         cwd = "${workspaceFolder}",
+        --         stopOnEntry = false,
+        --         sourceLanguages = { "rust" },
+        --         showDisassembly = "never",
         --     },
         -- }
 

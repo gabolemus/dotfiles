@@ -40,7 +40,7 @@ return {
                 -- }),                -- JS/TS formatter
                 formatting.stylua, -- Lua formatter
                 formatting.isort,
-                formatting.black,
+                formatting.autopep8,
                 formatting["bibtex-tidy"],
                 diagnostics.pylint,
                 diagnostics.eslint_d.with({                                             -- JS/TS linter
