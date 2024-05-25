@@ -11,6 +11,7 @@ alias vim='nvim'
 alias sysupdate='sudo pacman -Syu --noconfirm && yay -Sua --noconfirm'
 alias rstm='vim -c ":q"'
 alias rustrepl='evcxr'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python - --bytes'
 
 # WSL specific aliases
 alias explorer='/mnt/c/Windows/explorer.exe'
@@ -141,6 +142,7 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=blue,bold'
 eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/gabo-blue-owl.omp.json)"
 
 # Add NVM to PATH
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source /usr/share/nvm/init-nvm.sh
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
