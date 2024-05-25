@@ -1,8 +1,8 @@
 vim.g.clipboard = {
     name = "WslClipboard",
     copy = {
-        ["+"] = "clip.exe",
-        ["*"] = "clip.exe",
+        ["+"] = "win32yank.exe -i",
+        ["*"] = "win32yank.exe -i",
     },
     paste = {
         ["+"] = "pwsh.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace('`r', ''))",

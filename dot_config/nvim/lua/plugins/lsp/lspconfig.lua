@@ -7,6 +7,9 @@ return {
         { "antosha417/nvim-lsp-file-operations", config = true },
     },
     config = function()
+        -- Set up Java before lspconfig
+        require("java").setup()
+
         local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local opts = { noremap = true, silent = true }
@@ -18,6 +21,9 @@ return {
             focusable = true,
             style = "minimal",
             border = "rounded",
+        })
+        vim.diagnostic.config({
+            float = { border = "rounded" },
         })
 
         -- Todo: refactor this definitions so that they can both be used with RustaceanNvim
@@ -80,7 +86,6 @@ return {
             "html",
             "cssls",
             "eslint",
-            "clangd",
         }
 
         -- Loop through servers and configure them
@@ -156,14 +161,10 @@ return {
             filetypes = { "java" },
         })
 
-        lspconfig["java_language_server"].setup({
+        lspconfig["clangd"].setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            cmd = {
-                vim.fn.expand("$HOME")
-                .. "/.local/share/nvim/mason/packages/java-language-server/dist/lang_server_linux.sh",
-            },
-            filetypes = { "java" },
+            cmd = { "clangd", "--offset-encoding=utf-16" },
         })
 
         -- -- Configure GraphQL language server
@@ -184,7 +185,25 @@ return {
         lspconfig["omnisharp"].setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            cmd = { "dotnet", "/home/gabo/Downloads/OmniSharp.dll" },
+            filetypes = { "cs", "vb" },
+            cmd = { "dotnet", "/home/gabo/Downloads/omnisharp/OmniSharp.dll" },
+            settings = {
+                FormattingOptions = {
+                    EnableEditorConfigSupport = true,
+                    OrganizeImports = true,
+                },
+                MsBuild = {
+                    LoadProjectsOnDemand = nil,
+                },
+                RoslynExtensionsOptions = {
+                    EnableAnalyzersSupport = true,
+                    EnableImportCompletion = nil,
+                    AnalyzeOpenDocumentsOnly = nil,
+                },
+                Sdk = {
+                    IncludePrereleases = true,
+                },
+            },
         })
 
         -- -- Latex language server

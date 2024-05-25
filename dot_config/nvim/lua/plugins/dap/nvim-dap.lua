@@ -34,71 +34,30 @@ return {
             },
         }
 
-        -- -- CodeLLDB debug adapter
-        -- dap.adapters["codelldb"] = {
-        --     type = "server",
-        --     port = "${port}",
-        --     executable = {
-        --         command = require("mason-registry").get_package("codelldb"):get_install_path()
-        --             .. "/extension/adapter/codelldb",
-        --         args = { "--port", "${port}" },
-        --         -- detached = false,
-        --     },
-        -- }
-        --
-        -- -- Rust
-        -- dap.configurations["rust"] = {
-        --     {
-        --         name = "Debug with codelldb",
-        --         type = "codelldb",
-        --         request = "launch",
-        --         program = function()
-        --             vim.fn.jobstart("cargo build")
-        --             return vim.fn.input({
-        --                 prompt = "Path to executable: ",
-        --                 default = vim.fn.getcwd() .. "/",
-        --                 completion = "file",
-        --             })
-        --         end,
-        --         cwd = "${workspaceFolder}",
-        --         stopOnEntry = false,
-        --         sourceLanguages = { "rust" },
-        --         showDisassembly = "never",
-        --     },
-        --     {
-        --         name = "Debug tests",
-        --         type = "codelldb",
-        --         request = "launch",
-        --         program = function()
-        --             vim.fn.jobstart("cargo test --no-run")
-        --
-        --             -- -- The debuggable file will be in the target/debug directory
-        --             -- -- But there'll be other files, so we need to filter the one
-        --             -- -- without an extension.
-        --             -- local files = vim.fn.glob(vim.fn.getcwd() .. "/target/debug/*")
-        --             -- local file = ""
-        --             -- for _, f in ipairs(files) do
-        --             --     if not string.match(f, "%..+") then
-        --             --         file = f
-        --             --         break
-        --             --     end
-        --             -- end
-        --             return vim.fn.input({
-        --                 prompt = "Path to test executable: ",
-        --                 -- Present the whole path, but only use the directory
-        --                 -- as the default value.
-        --                 -- default = file,
-        --                 default = vim.fn.getcwd() .. "/target/debug/",
-        --                 completion = "file",
-        --             })
-        --         end,
-        --         problemMatcher = { "$rustc" },
-        --         cwd = "${workspaceFolder}",
-        --         stopOnEntry = false,
-        --         sourceLanguages = { "rust" },
-        --         showDisassembly = "never",
-        --     },
-        -- }
+        -- CodeLLDB debug adapter
+        dap.adapters["codelldb"] = {
+            type = "server",
+            port = "${port}",
+            executable = {
+                command = require("mason-registry").get_package("codelldb"):get_install_path()
+                    .. "/extension/adapter/codelldb",
+                args = { "--port", "${port}" },
+            },
+        }
+
+        -- CodeLLDB for C++
+        dap.configurations["cpp"] = {
+            {
+                name = "Launch file",
+                type = "codelldb",
+                request = "launch",
+                program = function()
+                    return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                end,
+                cwd = "${workspaceFolder}",
+                stopOnEntry = false,
+            },
+        }
 
         -- Node debug adapter
         dap.adapters["pwa-node"] = {
@@ -167,13 +126,12 @@ return {
         end
 
         -- C# debug adapter
-        dap.adapters.coreclr = {
+        dap.adapters["coreclr"] = {
             type = "executable",
-            command = "/home/gabo/.local/share/nvim/mason/packages/netcoredbg/libexec/netcoredbg/netcoredbg",
+            command = require("mason-registry").get_package("netcoredbg"):get_install_path() .. "/netcoredbg",
             args = { "--interpreter=vscode" },
         }
-
-        dap.configurations.cs = {
+        dap.configurations["cs"] = {
             {
                 type = "coreclr",
                 name = "launch - netcoredbg",

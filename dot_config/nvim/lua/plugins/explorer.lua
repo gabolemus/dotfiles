@@ -3,7 +3,7 @@ return {
     branch = "v3.x",
     dependencies = {
         "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
         "MunifTanjim/nui.nvim",
     },
     config = function()
@@ -16,18 +16,22 @@ return {
             -- Only sources listed here will be loaded.
             -- You can also add an external source by adding it's name to this list.
             -- The name used here must be the same name you would use in a require() call.
-            sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+            sources = {
+                "filesystem",
+                "buffers",
+                "git_status",
+                "document_symbols",
+            },
             add_blank_line_at_top = false,            -- Add a blank line at the top of the tree.
             auto_clean_after_session_restore = false, -- Automatically clean up broken neo-tree buffers saved in sessions
             close_if_last_window = false,             -- Close Neo-tree if it is the last window left in the tab
             default_source = "filesystem",            -- you can choose a specific source `last` here which indicates the last used source
             enable_diagnostics = true,
             enable_git_status = true,
-            enable_modified_markers = true,        -- Show markers for files with unsaved changes.
-            enable_opened_markers = true,          -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
-            enable_refresh_on_write = true,        -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.
-            enable_cursor_hijack = false,          -- If enabled neotree will keep the cursor on the first letter of the filename when moving in the tree.
-            enable_normal_mode_for_inputs = false, -- Enable normal mode for input dialogs.
+            enable_modified_markers = true, -- Show markers for files with unsaved changes.
+            enable_opened_markers = true,   -- Enable tracking of opened files. Required for `components.name.highlight_opened_files`
+            enable_refresh_on_write = true, -- Refresh the tree when a file is written. Only used if `use_libuv_file_watcher` is false.
+            enable_cursor_hijack = false,   -- If enabled neotree will keep the cursor on the first letter of the filename when moving in the tree.
             git_status_async = true,
             -- These options are for people with VERY large git repos
             git_status_async_options = {
@@ -97,6 +101,7 @@ return {
                 highlight_separator = "NeoTreeTabSeparatorInactive",
                 highlight_separator_active = "NeoTreeTabSeparatorActive",
             },
+
             event_handlers = {
                 {
                     event = "neo_tree_buffer_enter",
@@ -188,20 +193,20 @@ return {
                     width = "100%",
                     right_padding = 0,
                 },
-                --diagnostics = {
-                --  symbols = {
-                --    hint = "H",
-                --    info = "I",
-                --    warn = "!",
-                --    error = "X",
-                --  },
-                --  highlights = {
-                --    hint = "DiagnosticSignHint",
-                --    info = "DiagnosticSignInfo",
-                --    warn = "DiagnosticSignWarn",
-                --    error = "DiagnosticSignError",
-                --  },
-                --},
+                diagnostics = {
+                    symbols = {
+                        hint = "󰠠",
+                        info = "",
+                        warn = "",
+                        error = "",
+                    },
+                    highlights = {
+                        hint = "DiagnosticSignHint",
+                        info = "DiagnosticSignInfo",
+                        warn = "DiagnosticSignWarn",
+                        error = "DiagnosticSignError",
+                    },
+                },
                 indent = {
                     indent_size = 2,
                     padding = 1,
@@ -284,19 +289,13 @@ return {
                     {
                         "container",
                         content = {
-                            {
-                                "name",
-                                zindex = 10,
-                            },
+                            { "name",      zindex = 10 },
                             {
                                 "symlink_target",
                                 zindex = 10,
                                 highlight = "NeoTreeSymbolicLinkTarget",
                             },
-                            {
-                                "clipboard",
-                                zindex = 10,
-                            },
+                            { "clipboard", zindex = 10 },
                             {
                                 "diagnostics",
                                 errors_only = true,
@@ -304,32 +303,11 @@ return {
                                 align = "right",
                                 hide_when_expanded = true,
                             },
-                            {
-                                "git_status",
-                                zindex = 10,
-                                align = "right",
-                                hide_when_expanded = true,
-                            },
-                            {
-                                "file_size",
-                                zindex = 10,
-                                align = "right",
-                            },
-                            {
-                                "type",
-                                zindex = 10,
-                                align = "right",
-                            },
-                            {
-                                "last_modified",
-                                zindex = 10,
-                                align = "right",
-                            },
-                            {
-                                "created",
-                                zindex = 10,
-                                align = "right",
-                            },
+                            { "git_status",    zindex = 10, align = "right", hide_when_expanded = true },
+                            { "file_size",     zindex = 10, align = "right" },
+                            { "type",          zindex = 10, align = "right" },
+                            { "last_modified", zindex = 10, align = "right" },
+                            { "created",       zindex = 10, align = "right" },
                         },
                     },
                 },
@@ -574,10 +552,10 @@ return {
                 search_limit = 50,                      -- max number of search results when using filters
                 follow_current_file = {
                     enabled = false,                    -- This will find and focus the file in the active buffer every time
-                    --                                  -- the current file is changed while the tree is open.
-                    leave_dirs_open = false,            -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+                    --               -- the current file is changed while the tree is open.
+                    leave_dirs_open = true,             -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
                 },
-                hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+                hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
                 -- in whatever position is specified in window.position
                 -- "open_current",-- netrw disabled, opening a directory opens within the
                 -- window like netrw would, regardless of window.position

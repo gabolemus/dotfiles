@@ -1,6 +1,7 @@
 return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
+    version = "3.5.4",
     dependencies = {
         "HiPhish/rainbow-delimiters.nvim",
     },

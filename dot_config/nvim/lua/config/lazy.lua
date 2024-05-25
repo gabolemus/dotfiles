@@ -33,6 +33,9 @@ require("lazy").setup({
     change_detection = {
         notify = false,
     },
+    ui = {
+        border = "rounded",
+    },
 })
 
 -- Call vim.lsp.buf.format()

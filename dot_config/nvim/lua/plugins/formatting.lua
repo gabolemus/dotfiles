@@ -18,6 +18,7 @@ return {
                 markdown = { "prettier" },
                 lua = { "stylua" },
                 python = { "isort", "autopep8" },
+                cpp = { "clang-format" },
                 tex = { "bibtex-tidy" },
             },
             format_on_save = {
