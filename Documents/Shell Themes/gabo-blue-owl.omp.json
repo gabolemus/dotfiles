@@ -6,8 +6,10 @@
       "segments": [
         {
           "background": "transparent",
-          "background_templates": ["{{ if not .WSL }}#32405e{{ else }}#415a77{{ end }}"],
-          "leading_diamond": "\udb84\udf95",
+          "background_templates": [
+            "{{ if not .WSL }}#32405e{{ else }}#415a77{{ end }}"
+          ],
+          "leading_diamond": "\ue0b6",
           "foreground": "#ffffff",
           "foreground_templates": ["{{ if not .WSL }}#CCCCCC{{ end }}"],
           "style": "diamond",
@@ -137,6 +139,12 @@
       "type": "prompt"
     }
   ],
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "#ffffff",
+    "foreground_templates": ["{{ if gt .Code 0 }}#ff0000{{ end }}"],
+    "template": " \u276f "
+  },
   "console_title_template": "{{if .Root}} \u26a1 {{end}}{{.Folder | replace \"~\" \"~\" }} @ {{.HostName}}",
   "osc99": true,
   "version": 2
