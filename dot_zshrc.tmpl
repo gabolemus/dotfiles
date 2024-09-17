@@ -125,21 +125,29 @@ ZSH_HIGHLIGHT_STYLES[precommand]='fg=green,bold,underline'
 ZSH_HIGHLIGHT_STYLES[arg0]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=green,bold'
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=black,bold'
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=black,bold'
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=black,bold'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#767676,bold'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#767676,bold'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=#767676,bold'
 # Strings
 # Todo: change the color of the strings
 # ZSH_HIGHLIGHT_STYLES[command-substitution-quoted]='fg=blue,bold'
 # ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-quoted]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=blue,bold'
-# ZSH_HIGHLIGHT_STYLES[rc-quote]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=#3b78ff' # Bright blue
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=#3b78ff' # Bright blue
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#3b78ff' # Bright blue
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=#3b78ff' # Bright blue
+# ZSH_HIGHLIGHT_STYLES[rc-quote]='fg=#3b78ff' # Bright blue
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#16c60c' # Bright green
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#f9f1a5'
+ZSH_HIGHLIGHT_STYLES[command]='fg=#f9f1a5'
 
 # Initialize Oh My Posh
+{{- if eq .chezmoi.os "linux" }}
+eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/themes/gabo-blue-owl.omp.json)"
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/gabo-blue-owl.omp.json)"
+{{-  end }}
+{{- end }}
 
 # Add NVM to PATH
 source /usr/share/nvm/init-nvm.sh
