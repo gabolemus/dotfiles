@@ -32,8 +32,6 @@ return {
                 "pyright",
                 "rust_analyzer",
                 "clangd",
-                "java_language_server",
-                "jdtls",
             },
             -- Auto-install configured servers (with lspconfig)
             automatic_installation = true, -- Not the same as ensure_installed

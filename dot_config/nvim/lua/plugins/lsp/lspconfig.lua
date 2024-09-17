@@ -7,9 +7,6 @@ return {
         { "antosha417/nvim-lsp-file-operations", config = true },
     },
     config = function()
-        -- Set up Java before lspconfig
-        require("java").setup()
-
         local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local opts = { noremap = true, silent = true }
@@ -151,14 +148,6 @@ return {
                     },
                 },
             },
-        })
-
-        -- Configure Java language server
-        lspconfig["jdtls"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            cmd = { "jdtls" },
-            filetypes = { "java" },
         })
 
         lspconfig["clangd"].setup({
