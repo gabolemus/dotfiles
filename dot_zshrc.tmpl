@@ -149,6 +149,10 @@ eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/g
 {{-  end }}
 {{- end }}
 
+# Add NVM to PATH if it exists
+if [ -e /usr/share/nvm/init-nvm.sh ] then
+  source /usr/share/nvm/init-nvm.sh
+fi
 
 {{- if eq .chezmoi.os "linux" }}
 {{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
