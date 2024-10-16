@@ -143,7 +143,7 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=#f9f1a5'
 
 # Initialize Oh My Posh
 {{- if eq .chezmoi.os "linux" }}
-eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh-themes/gabo-blue-owl.omp.json)"
+eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/gabo-blue-owl.omp.json)"
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/gabo-blue-owl.omp.json)"
 {{-  end }}
