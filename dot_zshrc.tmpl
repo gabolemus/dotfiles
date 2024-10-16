@@ -115,12 +115,12 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
 # Zsh plugins
-if [ -e ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] then
+if [ -f ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
   source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 else
   echo "Zsh Autosuggestions not found at ~/.config/zsh/zsh-autosuggestions/"
 fi
-if [ -e ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] then
+if [ -f ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
   echo "Zsh Autosuggestions not found at ~/.config/zsh/zsh-syntax-highlighting/"
@@ -158,7 +158,7 @@ eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/g
 {{- end }}
 
 # Add NVM to PATH if it exists
-if [ -e /usr/share/nvm/init-nvm.sh ] then
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
   source /usr/share/nvm/init-nvm.sh
 else
   echo "NVM configuration not found at /usr/share/nvm/"
