@@ -115,8 +115,16 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
 # Zsh plugins
-source /home/gabo/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /home/gabo/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -e ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] then
+  source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+  echo "Zsh Autosuggestions not found at ~/.config/zsh/zsh-autosuggestions/"
+fi
+if [ -e ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] then
+  source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  echo "Zsh Autosuggestions not found at ~/.config/zsh/zsh-syntax-highlighting/"
+fi
 
 # Override Zsh syntax highlighting styles
 typeset -A ZSH_HIGHLIGHT_STYLES
