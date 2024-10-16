@@ -152,6 +152,8 @@ eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/g
 # Add NVM to PATH if it exists
 if [ -e /usr/share/nvm/init-nvm.sh ] then
   source /usr/share/nvm/init-nvm.sh
+else
+  echo "NVM configuration not found at /usr/share/nvm/"
 fi
 
 {{- if eq .chezmoi.os "linux" }}
