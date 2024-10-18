@@ -149,17 +149,20 @@ ZSH_HIGHLIGHT_STYLES[alias]='fg=#16c60c' # Bright green
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=#f9f1a5'
 ZSH_HIGHLIGHT_STYLES[command]='fg=#f9f1a5'
 
-# Initialize Oh My Posh
-if type oh-my-posh > /dev/null; then
-{{- if eq .chezmoi.os "linux" }}
-	eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/gabo-blue-owl.omp.json)"
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-	eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/gabo-blue-owl.omp.json)"
-{{-  end }}
-{{- end }}
-else
-	echo -e "Oh My Posh was not found. Please install it to source the custom theme. Using a simple custom prompt.\n"
-	export PS1='[%n@%m: %~] %# '
+# Only initialize Oh My Posh if not running from a TTY session
+if [[ "$(tty)" != "/dev/tty"* ]]; then
+  # Initialize Oh My Posh
+  if type oh-my-posh > /dev/null; then
+  {{- if eq .chezmoi.os "linux" }}
+    eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/gabo-blue-owl.omp.json)"
+  {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+    eval "$(oh-my-posh init zsh --config /mnt/c/Users/Gabo/Documents/Shell\ Themes/gabo-blue-owl.omp.json)"
+  {{-  end }}
+  {{- end }}
+  else
+    echo -e "Oh My Posh was not found. Please install it to source the custom theme. Using a simple custom prompt.\n"
+    export PS1='[%n@%m: %~] %# '
+  fi
 fi
 
 # Add NVM to PATH if it exists
