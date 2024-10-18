@@ -1,1 +1,5 @@
-. "$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ]; then
+	. "$HOME/.cargo/env"
+else
+	echo -e "$HOME/.cargo/env doesn't exist. Please make sure that you have Rust installed on your system.\n"
+fi
