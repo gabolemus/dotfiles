@@ -163,6 +163,8 @@ if [[ "$(tty)" != "/dev/tty"* ]]; then
     echo -e "Oh My Posh was not found. Please install it to source the custom theme. Using a simple custom prompt.\n"
     export PS1='[%n@%m: %~] %# '
   fi
+else
+    export PS1='[%n@%m: %~] %# '
 fi
 
 # Add NVM to PATH if it exists
