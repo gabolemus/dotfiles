@@ -2,17 +2,16 @@ return {
     "linux-cultist/venv-selector.nvim",
     dependencies = {
         "neovim/nvim-lspconfig",
-        "mfussenegger/nvim-dap",
+        "nvim-telescope/telescope.nvim",
         "mfussenegger/nvim-dap-python",
-        { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
     },
     ft = "python",
-    lazy = false,
-    branch = "regexp",
+    event = "VeryLazy",
     config = function()
         require("venv-selector").setup()
     end,
     keys = {
-        { ",v", "<cmd>VenvSelect<cr>" },
+        { ",vs", "<cmd>VenvSelect<cr>" },
+        { ",vc", "<cmd>VenvSelectCached<cr>" },
     },
 }

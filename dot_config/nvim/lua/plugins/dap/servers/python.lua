@@ -13,7 +13,7 @@ return {
         -- Bindings
         vim.keymap.set(
             "n",
-            "<leader>dpr",
+            "<leader>dpt",
             "<cmd>lua require('dap-python').test_method()<CR>",
             { desc = "Debug: Run python test method" }
         )
