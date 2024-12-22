@@ -1,0 +1,31 @@
+{
+    // General Settings
+    "layer": "top",
+    "position": "top",
+    "layer": "top",
+    "margin": "10em 18em -5em 18em",
+    "spacing": 0,
+    // Load Modules
+    "include": [
+        "~/.config/waybar/settings/quicklinks.jsonc",
+        "~/.config/waybar/modules.jsonc",
+    ],
+    // Modules Left
+    "modules-left": ["hyprland/workspaces"],
+    // Modules Center
+    "modules-center": ["clock", "custom/weather", "custom/appmenu"],
+    // Modules Right
+    "modules-right": [
+        "pulseaudio",
+        // "custom/mem",
+        // "cpu",
+        "backlight",
+        "bluetooth",
+        "battery",
+        "network",
+        // "group/hardware",
+        // "group/tools",
+        "tray",
+        "custom/exit",
+    ],
+}
