@@ -1,4 +1,0 @@
-# Enter sh emulation to load .profile and then return to zsh emulation.
-emulate sh
-. ~/.profile
-emulate zsh
