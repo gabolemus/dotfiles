@@ -43,11 +43,11 @@ return {
                 formatting.autopep8,
                 formatting["bibtex-tidy"],
                 diagnostics.pylint,
-                diagnostics.eslint_d.with({                                             -- JS/TS linter
-                    condition = function(utils)
-                        return utils.root_has_file({ ".eslintrc.js", ".eslintrc.cjs" }) -- Only enable if root has .eslintrc.js or .eslintrc.cjs
-                    end,
-                }),
+                -- diagnostics.eslint_d.with({                                             -- JS/TS linter
+                --     condition = function(utils)
+                --         return utils.root_has_file({ ".eslintrc.js", ".eslintrc.cjs" }) -- Only enable if root has .eslintrc.js or .eslintrc.cjs
+                --     end,
+                -- }),
             },
             -- Configure format on save
             on_attach = function(current_client, bufnr)

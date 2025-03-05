@@ -82,7 +82,7 @@ return {
         local servers = {
             "html",
             "cssls",
-            "eslint",
+            -- "eslint",
         }
 
         -- Loop through servers and configure them
