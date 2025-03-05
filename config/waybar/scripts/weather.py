@@ -10,11 +10,11 @@ import requests
 from requests.exceptions import SSLError
 
 # Constants
-WEATHER_API_URL = "https://wttr.in/Guatemala?format=j1"
+WTTR_API_URL = "https://wttr.in/Guatemala?format=j1"
+OPEN_METEO_API_URL = "https://api.open-meteo.com/v1/forecast?latitude=14.6349&longitude=-90.5069&current_weather=true&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=America/Guatemala"
 TIMEOUT = 30
 CHECK_INTERVAL = 15  # Seconds between checks
-# Maximum time to wait for an internet connection (in seconds)
-MAX_WAIT_TIME = 180
+MAX_WAIT_TIME = 180  # Maximum time to wait for an internet connection (in seconds)
 
 WEATHER_CODES = {
     '113': '☀️', '116': '⛅️', '119': '☁️', '122': '☁️', '143': '🌫',
@@ -29,7 +29,6 @@ WEATHER_CODES = {
     '389': '🌩', '392': '⛈', '395': '❄️'
 }
 
-
 def check_internet_connection():
     """Checks for an Internet connection."""
     try:
@@ -38,7 +37,6 @@ def check_internet_connection():
     except requests.RequestException:
         return False
 
-
 def wait_for_internet_connection():
     """Waits for an Internet connection to be established."""
     elapsed_time = 0
@@ -46,46 +44,57 @@ def wait_for_internet_connection():
         if check_internet_connection():
             return True
         print(json.dumps({"text": "⏳ waiting for Internet connection.",
-              "tooltip": "Waiting for an Internet connection."}))
+                          "tooltip": "Waiting for an Internet connection."}))
         sys.stdout.flush()
         time.sleep(CHECK_INTERVAL)
         elapsed_time += CHECK_INTERVAL
     return False
 
-
 def fetch_weather():
-    """Fetches the weather data with a manual SSL check."""
+    """Fetches the weather data from wttr.in, falls back to Open-Meteo if it fails."""
     try:
-        response = requests.get(WEATHER_API_URL, timeout=TIMEOUT)
+        response = requests.get(WTTR_API_URL, timeout=TIMEOUT)
         response.raise_for_status()
         return response.json()
-    except SSLError:
-        print("SSL verification failed. The certificate may be expired.")
-        # Optionally fall back to verify=False
-        response = requests.get(WEATHER_API_URL, timeout=TIMEOUT, verify=False)
+    except (SSLError, requests.RequestException):
+        return fetch_weather_open_meteo()
+
+def fetch_weather_open_meteo():
+    """Fetches the weather data from Open-Meteo as a fallback."""
+    try:
+        response = requests.get(OPEN_METEO_API_URL, timeout=TIMEOUT)
         response.raise_for_status()
-        return response.json()
+        weather_data = response.json()
+        return format_open_meteo(weather_data)
     except requests.RequestException as e:
-        return {"error": str(e)}
+        return {"error": f"Open-Meteo error: {str(e)}"}
 
-
-def format_time(time):
-    """Formats the time."""
-    return time.zfill(4)[:-2]
-
-
-def format_chances(hour):
-    """Formats the forecast."""
-    CHANCE_LABELS = {
-        "chanceoffog": "Fog", "chanceoffrost": "Frost", "chanceofovercast": "Overcast",
-        "chanceofrain": "Rain", "chanceofsnow": "Snow", "chanceofsunshine": "Sunshine",
-        "chanceofthunder": "Thunder", "chanceofwindy": "Wind"
+def format_open_meteo(data):
+    """Formats Open-Meteo data to match the wttr.in structure."""
+    current = data["current_weather"]
+    daily = data["daily"]
+    
+    weather_data = {
+        "current_condition": [{
+            "temp_C": str(current["temperature"]),
+            "FeelsLikeC": str(current["temperature"]),  # Open-Meteo lacks "feels like" temp
+            "windspeedKmph": str(current["windspeed"]),
+            "humidity": "N/A",  # Open-Meteo does not provide humidity in free tier
+            "weatherCode": "113",  # Assume clear weather if no specific condition is given
+            "weatherDesc": [{"value": "Clear"}]
+        }],
+        "weather": [{
+            "date": daily["time"][0],
+            "maxtempC": str(daily["temperature_2m_max"][0]),
+            "mintempC": str(daily["temperature_2m_min"][0]),
+            "astronomy": [{
+                "sunrise": daily["sunrise"][0].split("T")[1],
+                "sunset": daily["sunset"][0].split("T")[1]
+            }],
+            "hourly": []
+        }]
     }
-    return ", ".join(
-        f"{CHANCE_LABELS[event]} {hour[event]}%"
-        for event in CHANCE_LABELS if int(hour[event]) > 0
-    )
-
+    return weather_data
 
 def generate_tooltip(weather_data):
     """Generates the module tooltip."""
@@ -94,36 +103,22 @@ def generate_tooltip(weather_data):
         f"<b>{current['weatherDesc'][0]['value']} {current['temp_C']}°</b>",
         f"Feels like: {current['FeelsLikeC']}°",
         f"Wind: {current['windspeedKmph']}Km/h",
-        f"Humidity: {current['humidity']}%",
+        f"Humidity: {current.get('humidity', 'N/A')}%",
     ]
-    now = datetime.now().hour
 
     for i, day in enumerate(weather_data['weather']):
         date_label = "Today" if i == 0 else "Tomorrow" if i == 1 else day['date']
         tooltip.append(f"\n<b>{date_label}</b>")
         tooltip.append(f"⬆️ {day['maxtempC']}° ⬇️ {day['mintempC']}°")
-        tooltip.append(
-            f" {day['astronomy'][0]['sunrise']}  {day['astronomy'][0]['sunset']}")
-
-        for hour in day['hourly']:
-            hour_time = int(format_time(hour['time']))
-            if i == 0 and hour_time < now - 2:
-                continue
-            tooltip.append(
-                f"{format_time(hour['time'])} {WEATHER_CODES.get(hour['weatherCode'], '❓')} "
-                f"{hour['FeelsLikeC']}° {hour['weatherDesc'][0]['value']}, {format_chances(hour)}"
-            )
+        tooltip.append(f" {day['astronomy'][0]['sunrise']}  {day['astronomy'][0]['sunset']}")
 
     return "\n".join(tooltip)
 
-
 def display_loading_icon():
     """Display the loading icon while the weather data is loading."""
-    loading_data = {"text": "⏳ Loading...",
-                    "tooltip": "Fetching weather data..."}
+    loading_data = {"text": "⏳ Loading...", "tooltip": "Fetching weather data..."}
     print(json.dumps(loading_data))
     sys.stdout.flush()
-
 
 def main():
     """Main loop."""
@@ -132,8 +127,7 @@ def main():
     loading_thread.start()
 
     if not wait_for_internet_connection():
-        print(json.dumps({"text": "❌ no internet",
-              "tooltip": "no internet connection available."}))
+        print(json.dumps({"text": "❌ no internet", "tooltip": "No internet connection available."}))
         sys.stdout.flush()
         return
 
@@ -144,7 +138,7 @@ def main():
         output = {"text": "❌ Error", "tooltip": weather_data['error']}
     else:
         current = weather_data['current_condition'][0]
-        weather_icon = WEATHER_CODES.get(current['weatherCode'], '❓')
+        weather_icon = WEATHER_CODES.get(current.get('weatherCode', '113'), '❓')
         weather_text = f"{weather_icon} {current['FeelsLikeC']}°"
         output = {
             "text": weather_text,
@@ -152,7 +146,6 @@ def main():
         }
 
     print(json.dumps(output))
-
 
 if __name__ == "__main__":
     main()
