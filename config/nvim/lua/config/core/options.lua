@@ -38,7 +38,7 @@ vim.opt.background = "dark"
 
 -- Scroll
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "number"
+vim.opt.signcolumn = "yes"
 --vim.opt.isfname:append("@-@")
 
 -- Update time
