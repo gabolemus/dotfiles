@@ -14,6 +14,7 @@ return {
         vim.g.sonokai_show_eob = 0
         vim.g.sonokai_dim_inactive_windows = 1
         vim.g.sonokai_inlay_hints_background = "dimmed"
+        vim.g.sonokai_diagnostic_virtual_text = "highlighted"
         vim.cmd.colorscheme("sonokai")
     end,
 }
