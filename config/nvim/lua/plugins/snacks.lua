@@ -1,9 +1,10 @@
 return {
     "folke/snacks.nvim",
-    enabled = true,
+    enabled = false,
     priority = 1000,
     lazy = false,
     opts = {
+        -- TODO: explore this plugin's options
         bigfile = { enabled = true },
         dashboard = { enabled = true },
         input = { enabled = true },
