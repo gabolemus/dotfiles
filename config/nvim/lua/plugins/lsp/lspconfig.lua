@@ -122,12 +122,12 @@ return {
             capabilities = capabilities,
             on_attach = on_attach,
             settings = {
-                ['rust-analyzer'] = {
+                ["rust-analyzer"] = {
                     diagnostics = {
-                        enable = true;
-                    }
-                }
-            }
+                        enable = true,
+                    },
+                },
+            },
         })
 
         -- Configure Python language server
