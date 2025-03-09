@@ -24,7 +24,7 @@ vim.opt.wrap = false
 --vim.opt.whichwrap:append("<,>,h,l")
 
 -- Search highlighting
-vim.opt.hlsearch = true
+vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.inccommand = "split"
 
