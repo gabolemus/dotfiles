@@ -27,13 +27,19 @@ return {
         telescope.load_extension("fzf")
     end,
     keys = {
-        { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Fuzzy find files in cwd" },
-        { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Fuzzy find recent files" },
-        { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Fuzzy find string in cwd" },
+        { "<leader>ff", "<cmd>Telescope find_files<cr>",  desc = "Fuzzy find files in cwd" },
+        { "<leader>fr", "<cmd>Telescope oldfiles<cr>",    desc = "Fuzzy find recent files" },
+        { "<leader>fs", "<cmd>Telescope live_grep<cr>",   desc = "Fuzzy find string in cwd" },
         { "<leader>fc", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor in cwd" },
-        { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Fuzzy find buffers" },
-        { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Fuzzy find help tags" },
-        { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Fuzzy find git files" },
-        { "<leader>fo", function() require("telescope.builtin").find_files({ search_dirs = { "~" } }) end, desc = "Fuzzy find in home directory" },
+        { "<leader>fb", "<cmd>Telescope buffers<cr>",     desc = "Fuzzy find buffers" },
+        { "<leader>fh", "<cmd>Telescope help_tags<cr>",   desc = "Fuzzy find help tags" },
+        { "<leader>fg", "<cmd>Telescope git_files<cr>",   desc = "Fuzzy find git files" },
+        {
+            "<leader>fo",
+            function()
+                require("telescope.builtin").find_files({ search_dirs = { "~" } })
+            end,
+            desc = "Fuzzy find in home directory",
+        },
     },
 }
