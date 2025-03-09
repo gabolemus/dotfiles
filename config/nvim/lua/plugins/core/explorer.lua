@@ -80,6 +80,7 @@ return {
                 follow_current_file = {
                     leave_dirs_open = true,
                 },
+                hijack_netrw_behavior = "open_current",
                 use_libuv_file_watcher = true,
             },
         })
