@@ -1,8 +1,8 @@
 -- Line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.cursorline = true          -- Enable cursorline (required for CursorLineNr)
-vim.opt.cursorlineopt = "number"   -- Only highlight the line number, not the full line
+vim.opt.cursorline = true        -- Enable cursorline (required for CursorLineNr)
+vim.opt.cursorlineopt = "number" -- Only highlight the line number, not the full line
 
 -- Window splitting
 vim.opt.splitbelow = true
@@ -63,15 +63,15 @@ vim.opt.clipboard = "unnamedplus" -- Sync system clipboard with Neovim's clipboa
 local function update_cursorline_color()
     local mode = vim.api.nvim_get_mode().mode
     if mode == "n" then
-        vim.cmd [[ highlight CursorLineNr guifg=#ffcc00 gui=bold ]] -- Normal mode: Yellow
+        vim.cmd([[ highlight CursorLineNr guifg=#ffcc00 gui=bold ]]) -- Normal mode: Yellow
     elseif mode == "i" then
-        vim.cmd [[ highlight CursorLineNr guifg=#00ffcc gui=bold ]] -- Insert mode: Cyan
+        vim.cmd([[ highlight CursorLineNr guifg=#00ffcc gui=bold ]]) -- Insert mode: Cyan
     elseif mode == "v" or mode == "V" or mode == "␖" then
-        vim.cmd [[ highlight CursorLineNr guifg=#ff5555 gui=bold ]] -- Visual mode: Red
+        vim.cmd([[ highlight CursorLineNr guifg=#ff5555 gui=bold ]]) -- Visual mode: Red
     elseif mode == "R" then
-        vim.cmd [[ highlight CursorLineNr guifg=#ff00ff gui=bold ]] -- Replace mode: Magenta
+        vim.cmd([[ highlight CursorLineNr guifg=#ff00ff gui=bold ]]) -- Replace mode: Magenta
     else
-        vim.cmd [[ highlight CursorLineNr guifg=#ffffff gui=bold ]] -- Default: White
+        vim.cmd([[ highlight CursorLineNr guifg=#ffffff gui=bold ]]) -- Default: White
     end
 end
 
@@ -83,4 +83,3 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 
 -- Initialize color on startup
 update_cursorline_color()
-

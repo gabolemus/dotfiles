@@ -22,7 +22,6 @@ vim.keymap.set("n", "<C-S-CR>", "k`O<Esc>``")
 vim.keymap.set("i", "<C-H>", "<C-w>", { silent = true, desc = "Delete word to the left" })
 vim.keymap.set("i", "<C-Del>", "<C-o>dw", { silent = true, desc = "Delete word to the right" })
 
-
 -- Command mode remaps
 vim.keymap.set(
     "c",
