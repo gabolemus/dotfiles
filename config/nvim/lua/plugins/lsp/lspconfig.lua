@@ -10,7 +10,7 @@ return {
         local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local opts = { noremap = true, silent = true }
-        -- local util = require("lspconfig/util")
+        local util = require("lspconfig/util")
 
         -- Give floating windows borders
         vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -121,6 +121,8 @@ return {
         lspconfig["rust_analyzer"].setup({
             capabilities = capabilities,
             on_attach = on_attach,
+            filetypes = { "rust" },
+            root_dir = util.root_pattern("Cargo.toml"),
             settings = {
                 ["rust-analyzer"] = {
                     diagnostics = {
