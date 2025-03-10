@@ -12,9 +12,6 @@ vim.opt.splitright = true
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
 
 -- Virtual editing
 vim.opt.virtualedit = "block" -- Allows virtual editing past the line as a block
