@@ -21,7 +21,7 @@ return {
                 lua = { "stylua" },
                 python = { "isort", "autopep8" },
                 cpp = { "clang-format" },
-                tex = { "bibtex-tidy" },
+                tex = { "tex-fmt" },
             },
             format_on_save = {
                 lsp_fallback = true,
