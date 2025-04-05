@@ -1,5 +1,6 @@
 return {
     "neovim/nvim-lspconfig",
+    enabled = true,
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
@@ -163,17 +164,18 @@ return {
             filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
         })
 
-        -- -- Latex language server
-        -- lspconfig["ltex"].setup({
-        --     capabilities = capabilities,
-        --     on_attach = on_attach,
-        --     settings = {
-        --         ltex = {
-        --             language = "en-US",
-        --             checkFrequency = "save",
-        --         },
-        --     },
-        -- })
+        -- Latex language server
+        lspconfig["ltex"].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+                ltex = {
+                    language = "es",
+                    checkFrequency = "save",
+                },
+            },
+            filetypes = { "bib", "plaintex", "tex", "pandoc", "quarto", "rmd", "context", "mail" },
+        })
 
         -- Configure lua server (with special settings)
         lspconfig["lua_ls"].setup({
