@@ -2,20 +2,33 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- Splits
+-- Window splitting behavior
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
--- Disable line wrap
+-- Line wrapping
 vim.opt.wrap = false
 
--- Tabs
+-- Tab and indentation settings
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
--- Clipboard
+-- Clipboard integration
 vim.opt.clipboard = "unnamedplus" -- Sync the system clipboard with Neovim's clipboard
 
--- Scroll
+-- Scrolling behavior
 vim.opt.scrolloff = 999 -- Keeps the cursor in the middle of the screen while scrolling
+
+-- Allow cursor to move freely in visual block mode
+vim.opt.virtualedit = "block"
+
+-- Live preview of substitution commands
+vim.opt.inccommand = "split"
+
+-- Case-insensitive searching
+vim.opt.ignorecase = true
+
+-- Enable true color support
+vim.opt.termguicolors = true
 
