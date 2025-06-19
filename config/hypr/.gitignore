@@ -1,3 +1,7 @@
 # Configurations that can change dynamically
 hyprpaper.conf
 monitors.conf
+workspaces.conf
+
+# Custom wallpapers
+media/

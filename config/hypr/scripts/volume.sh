@@ -24,25 +24,25 @@ get_icon() {
 
 # Notify
 notify_user() {
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon)" "Volume : $(get_volume) %"
+	notify-send -t 5000 -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon)" "Volume: $(get_volume)%"
 }
 
 # Increase Volume
 inc_volume() {
-	pamixer -i 5 && notify_user
+	pamixer -i 2 && notify_user
 }
 
 # Decrease Volume
 dec_volume() {
-	pamixer -d 5 && notify_user
+	pamixer -d 2 && notify_user
 }
 
 # Toggle Mute
 toggle_mute() {
 	if [ "$(pamixer --get-mute)" == "false" ]; then
-		pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$iDIR/volume-mute.png" "Volume Switched OFF"
+		pamixer -m && notify-send -t 5000 -h string:x-canonical-private-synchronous:sys-notify -u low -i "$iDIR/volume-mute.png" "Volume Switched OFF"
 	elif [ "$(pamixer --get-mute)" == "true" ]; then
-		pamixer -u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon)" "Volume Switched ON"
+		pamixer -u && notify-send -t 5000 -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon)" "Volume Switched ON"
 	fi
 }
 
@@ -69,17 +69,17 @@ get_mic_icon() {
 }
 # Notify
 notify_mic_user() {
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_mic_icon)" "Mic-Level : $(pamixer --default-source --get-volume) %"
+	notify-send -t 5000 -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_mic_icon)" "Mic-Level : $(pamixer --default-source --get-volume) %"
 }
 
 # Increase MIC Volume
 inc_mic_volume() {
-	pamixer --default-source -i 5 && notify_mic_user
+	pamixer --default-source -i 2 && notify_mic_user
 }
 
 # Decrease MIC Volume
 dec_mic_volume() {
-	pamixer --default-source -d 5 && notify_mic_user
+	pamixer --default-source -d 2 && notify_mic_user
 }
 
 # Execute accordingly

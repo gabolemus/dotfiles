@@ -23,15 +23,15 @@ return {
         mason_lspconfig.setup({
             -- List of servers for mason to install
             ensure_installed = {
+                "rust_analyzer",
+                "clangd",
+                "pyright",
                 "ts_ls",
                 "html",
                 "cssls",
                 "eslint",
                 "lua_ls",
                 "emmet_ls",
-                "pyright",
-                "rust_analyzer",
-                "clangd",
             },
             -- Auto-install configured servers (with lspconfig)
             automatic_installation = true, -- Not the same as ensure_installed
