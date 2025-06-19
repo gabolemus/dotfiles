@@ -56,9 +56,9 @@ vim.opt.backspace = "indent,eol,start"
 local function update_cursorline_color()
     local mode = vim.api.nvim_get_mode().mode
     if mode == "n" then
-        vim.cmd([[ highlight CursorLineNr guifg=#ffcc00 gui=bold ]]) -- Normal mode: Yellow
+        vim.cmd([[ highlight CursorLineNr guifg=#ffffff gui=bold ]]) -- Normal mode: White
     elseif mode == "i" then
-        vim.cmd([[ highlight CursorLineNr guifg=#00ffcc gui=bold ]]) -- Insert mode: Cyan
+        vim.cmd([[ highlight CursorLineNr guifg=#3A96DD gui=bold ]]) -- Insert mode: Blue
     elseif mode == "v" or mode == "V" or mode == "␖" then
         vim.cmd([[ highlight CursorLineNr guifg=#ff5555 gui=bold ]]) -- Visual mode: Red
     elseif mode == "R" then
