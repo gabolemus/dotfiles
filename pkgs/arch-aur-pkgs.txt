@@ -1,0 +1,11 @@
+brave-bin
+fsearch
+heroic-games-launcher-bin
+hyprland-qtutils
+moar
+nvm
+oh-my-posh
+skypeforlinux-bin
+spotify
+spotify-adblock
+wlogout

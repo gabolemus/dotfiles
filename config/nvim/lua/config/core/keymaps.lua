@@ -1,25 +1,26 @@
-require("config.core.utils.process")
-
 -- Leader key
 vim.g.mapleader = " "
--- vim.keymap.set("n", "<leader>p", "<NOP>", { noremap = true, silent = true })
 
+----- Normal mode remaps -----
+
+-- Line navigation remaps
 -- Remaps Ctrl+Shift+{ to Ctrl+^, which moves the cursor to the first non-blank character of the line
 vim.keymap.set("n", "<C-[>", "^", { silent = true, desc = "Move to first non-blank character" })
 
--- Normal mode remaps
+-- Buffer navigation
 vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { silent = true, desc = "Go to next buffer" })
 vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", { silent = true, desc = "Go to previous buffer" })
--- vim.keymap.set("n", "<Leader>bn", ":lua smart_bnext()<CR>", { noremap = true, silent = true })
--- vim.keymap.set("n", "<Leader>bp", ":lua smart_bprevious()<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "U", "<C-r>", { silent = true, desc = "Redo" })
 vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", { silent = true, desc = "Save file" })
 vim.keymap.set("n", "<leader>sa", "<cmd>wall<CR>", { silent = true, desc = "Save all buffers" })
 
--- Insert mode remaps
+-- Line insertion
+vim.keymap.set("n", "<CR>", "m`o<Esc>``")
+vim.keymap.set("n", "<C-S-CR>", "k`O<Esc>``")
+
+----- Insert mode remaps -----
 vim.keymap.set("i", "<C-H>", "<C-w>", { silent = true, desc = "Delete word to the left" })
 vim.keymap.set("i", "<C-Del>", "<C-o>dw", { silent = true, desc = "Delete word to the right" })
-vim.keymap.set("i", "<C-S-CR>", "<Esc>o", { silent = true, desc = "Insert new line below" })
 
 -- Command mode remaps
 vim.keymap.set(
@@ -59,7 +60,6 @@ vim.api.nvim_set_keymap("t", "<C-v>", "<C-r><C-o>+", { noremap = true, silent = 
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
--- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- Use <leader>mp instead
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -67,10 +67,6 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 vim.keymap.set("n", "<leader>rf", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-vim.keymap.set("n", "<leader>X", "<cmd>!chmod -x %<CR>", { silent = true })
-
-vim.keymap.set("n", "<leader><leader>", "<cmd>source %<CR>", { desc = "Source current file" })
 
 -- Clear search highlights
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights", silent = true })
@@ -91,12 +87,3 @@ vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current t
 vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
-
--- Custom workflows
-vim.keymap.set("n", "<leader>lt", function()
-    if IsProcessRunning("love") then
-        StopLove2D()
-    else
-        RunLove2D()
-    end
-end, { desc = "Love2D: Toggle run/stop" })

@@ -1,5 +1,6 @@
 return {
     "neovim/nvim-lspconfig",
+    enabled = true,
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
@@ -10,7 +11,7 @@ return {
         local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local opts = { noremap = true, silent = true }
-        -- local util = require("lspconfig/util")
+        local util = require("lspconfig/util")
 
         -- Give floating windows borders
         vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -118,20 +119,19 @@ return {
             },
         })
 
-        -- -- Configure Rust language server
-        -- lspconfig["rust_analyzer"].setup({
-        --     capabilities = capabilities,
-        --     on_attach = on_attach,
-        --     filetypes = { "rust" },
-        --     root_dir = util.root_pattern("Cargo.toml"),
-        --     settings = {
-        --         ["rust-analyzer"] = {
-        --             cargo = {
-        --                 allFeatures = true,
-        --             },
-        --         },
-        --     },
-        -- })
+        lspconfig["rust_analyzer"].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            filetypes = { "rust" },
+            root_dir = util.root_pattern("Cargo.toml"),
+            settings = {
+                ["rust-analyzer"] = {
+                    diagnostics = {
+                        enable = true,
+                    },
+                },
+            },
+        })
 
         -- Configure Python language server
         lspconfig["pyright"].setup({
@@ -150,18 +150,12 @@ return {
             },
         })
 
+        -- Clangd for C/C++
         lspconfig["clangd"].setup({
             capabilities = capabilities,
             on_attach = on_attach,
             cmd = { "clangd", "--offset-encoding=utf-16" },
         })
-
-        -- -- Configure GraphQL language server
-        -- lspconfig["graphql"].setup({
-        --     capabilities = capabilities,
-        --     on_attach = on_attach,
-        --     filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-        -- })
 
         -- Configure emmet language server
         lspconfig["emmet_ls"].setup({
@@ -170,42 +164,18 @@ return {
             filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
         })
 
-        -- Omnisharp (C#) language server
-        lspconfig["omnisharp"].setup({
+        -- Latex language server
+        lspconfig["ltex"].setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            filetypes = { "cs", "vb" },
-            cmd = { "dotnet", "/home/gabo/Downloads/omnisharp/OmniSharp.dll" },
             settings = {
-                FormattingOptions = {
-                    EnableEditorConfigSupport = true,
-                    OrganizeImports = true,
-                },
-                MsBuild = {
-                    LoadProjectsOnDemand = nil,
-                },
-                RoslynExtensionsOptions = {
-                    EnableAnalyzersSupport = true,
-                    EnableImportCompletion = nil,
-                    AnalyzeOpenDocumentsOnly = nil,
-                },
-                Sdk = {
-                    IncludePrereleases = true,
+                ltex = {
+                    language = "es",
+                    checkFrequency = "save",
                 },
             },
+            filetypes = { "bib", "plaintex", "tex", "pandoc", "quarto", "rmd", "context", "mail" },
         })
-
-        -- -- Latex language server
-        -- lspconfig["ltex"].setup({
-        --     capabilities = capabilities,
-        --     on_attach = on_attach,
-        --     settings = {
-        --         ltex = {
-        --             language = "en-US",
-        --             checkFrequency = "save",
-        --         },
-        --     },
-        -- })
 
         -- Configure lua server (with special settings)
         lspconfig["lua_ls"].setup({
