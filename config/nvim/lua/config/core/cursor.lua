@@ -1,24 +1,32 @@
--- Configuration to reset the cursor when exiting Neovim
--- Cursor options
-vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
-    .. ",a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor"
-    .. ",sm:block-blinkwait175-blinkoff150-blinkon175"
+-- ──────────────────────────────
+--  Cursor shape & reset on exit
+-- ──────────────────────────────
+vim.opt.guicursor = table.concat({
+    "n-v-c:block",                   -- block in Normal/Visual/Command
+    "i-ci-ve:ver25",                 -- 25 % bar in Insert/C-Insert/Virtual
+    "r-cr:hor20",                    -- 20 % underline in Replace/Command-replace
+    "o:hor50",                       -- 50 % underline in Operator-pending
+    "a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",  -- blink params
+    "sm:block-blinkwait175-blinkoff150-blinkon175"           -- show-match block
+}, ",")
 
--- Set guicursor and send escape sequence on VimLeave
+-- Return to a thin vertical bar (the classic “pipe”) when Neovim quits.
 vim.api.nvim_create_autocmd("VimLeave", {
     callback = function()
         vim.opt.guicursor = "a:ver25"
     end,
 })
 
--- Configuration to highlight only the number of the current line
-vim.cmd("set cursorline")
-vim.cmd("set cursorlineopt=number")
+-- ──────────────────────────────
+--  Cursor-line: number only
+-- ──────────────────────────────
+-- Make the highlighted line number bold, no matter what colourscheme loads.
+local hl_group = vim.api.nvim_create_augroup("UserCursorLineNr", { clear = true })
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = hl_group,
+    callback = function()
+        -- You can add foreground / background colours here if you like
+        vim.api.nvim_set_hl(0, "CursorLineNr", { bold = true })
+    end,
+})
 
--- Define an autocmd for ColorScheme event
-vim.api.nvim_exec2(
-    [[
-  autocmd ColorScheme * highlight CursorLineNr cterm=bold term=bold gui=bold
-  ]],
-    { output = false }
-)

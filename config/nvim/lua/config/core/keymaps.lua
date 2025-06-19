@@ -1,89 +1,114 @@
--- Leader key
+--------------------------------------------------------------------
+--  Leader key
+--------------------------------------------------------------------
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
------ Normal mode remaps -----
+--------------------------------------------------------------------
+--  Helpers
+--------------------------------------------------------------------
+local map  = vim.keymap.set          -- convenience alias
+local opts = { silent = true }       -- default opts
 
--- Line navigation remaps
--- Remaps Ctrl+Shift+{ to Ctrl+^, which moves the cursor to the first non-blank character of the line
-vim.keymap.set("n", "<C-[>", "^", { silent = true, desc = "Move to first non-blank character" })
+-- Shorthand for normal-mode maps with description
+local function n(lhs, rhs, desc)
+    map("n", lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
+end
 
--- Buffer navigation
-vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { silent = true, desc = "Go to next buffer" })
-vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", { silent = true, desc = "Go to previous buffer" })
-vim.keymap.set("n", "U", "<C-r>", { silent = true, desc = "Redo" })
-vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", { silent = true, desc = "Save file" })
-vim.keymap.set("n", "<leader>sa", "<cmd>wall<CR>", { silent = true, desc = "Save all buffers" })
+--------------------------------------------------------------------
+--  Normal-mode navigation / editing
+--------------------------------------------------------------------
+n("<C-[>", "^",         "First non-blank char")          -- overrides default Esc in Normal only
+n("J",       "mzJ`z",   "Join lines keep cursor")        -- keep cursor in place
+n("<C-d>",   "<C-d>zz", "½-page down & recenter")
+n("<C-u>",   "<C-u>zz", "½-page up & recenter")
+n("n",       "nzzzv",   "Next search & unfold")
+n("N",       "Nzzzv",   "Prev search & unfold")
 
--- Line insertion
-vim.keymap.set("n", "<CR>", "m`o<Esc>``")
-vim.keymap.set("n", "<C-S-CR>", "k`O<Esc>``")
+-- Insert blank lines without entering Insert mode
+n("<CR>",       "m`o<Esc>``",  "New line below (stay Normal)")
+n("<S-CR>",     "m`O<Esc>``",  "New line above (stay Normal)")  -- Shift-Enter works in most terms
 
------ Insert mode remaps -----
-vim.keymap.set("i", "<C-H>", "<C-w>", { silent = true, desc = "Delete word to the left" })
-vim.keymap.set("i", "<C-Del>", "<C-o>dw", { silent = true, desc = "Delete word to the right" })
+--------------------------------------------------------------------
+--  Buffer & file handles
+--------------------------------------------------------------------
+--vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { silent = true, desc = "Go to next buffer" })
+n("<leader>bn", ":bnext<CR>",     "Next buffer")
+n("<leader>bp", ":bprevious<CR>", "Previous buffer")
+n("<C-s>",      "<cmd>w<CR>",     "Save file")
+n("<leader>sa", "<cmd>wall<CR>",  "Save all buffers")
+n("U",          "<C-r>",          "Redo")
 
--- Command mode remaps
-vim.keymap.set(
-    "c",
-    "<C-k>",
-    [[ wildmenumode() ? "<C-p>" : "<Up>" ]],
-    { noremap = true, expr = true, desc = "Previous command search" }
-)
-vim.keymap.set(
-    "c",
-    "<C-j>",
-    [[ wildmenumode() ? "<C-n>" : "<Down>" ]],
-    { noremap = true, expr = true, desc = "Next command search" }
-)
+--------------------------------------------------------------------
+--  Quickfix / loclist navigation
+--------------------------------------------------------------------
+n("<C-k>",      "<cmd>cnext<CR>zz",   "Quickfix next")
+n("<C-j>",      "<cmd>cprev<CR>zz",   "Quickfix prev")
+n("<leader>k>", "<cmd>lnext<CR>zz",   "Loclist next")
+n("<leader>j>", "<cmd>lprev<CR>zz",   "Loclist prev")
 
--- Move selected line / block in visual mode
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line/block down", silent = true })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line/block up", silent = true })
+--------------------------------------------------------------------
+--  Search helpers
+--------------------------------------------------------------------
+n("<leader>nh", ":nohl<CR>",                                            "Clear search highlight")
+n("<leader>rf", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Replace word under cursor")
 
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+--------------------------------------------------------------------
+--  Number increment / decrement
+--------------------------------------------------------------------
+n("<leader>+", "<C-a>", "Increment number")
+n("<leader>-", "<C-x>", "Decrement number")
 
--- Greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+--------------------------------------------------------------------
+--  Window management
+--------------------------------------------------------------------
+n("<leader>sv", "<C-w>v", "Split vertically")
+n("<leader>sh", "<C-w>s", "Split horizontally")
+n("<leader>se", "<C-w>=", "Equalize splits")
+n("<leader>sx", "<cmd>close<CR>", "Close split")
 
--- Next greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+--------------------------------------------------------------------
+--  Tab management
+--------------------------------------------------------------------
+n("<leader>to", "<cmd>tabnew<CR>",     "New tab")
+n("<leader>tx", "<cmd>tabclose<CR>",   "Close tab")
+n("<leader>tn", "<cmd>tabn<CR>",       "Next tab")
+n("<leader>tp", "<cmd>tabp<CR>",       "Prev tab")
+n("<leader>tf", "<cmd>tabnew %<CR>",   "Current buffer in new tab")
 
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-vim.api.nvim_set_keymap("t", "<C-v>", "<C-r><C-o>+", { noremap = true, silent = true })
+--------------------------------------------------------------------
+--  Visual-mode text movement
+--------------------------------------------------------------------
+map("v", "J", ":m '>+1<CR>gv=gv", vim.tbl_extend("keep", opts, { desc = "Move block down" }))
+map("v", "K", ":m '<-2<CR>gv=gv", vim.tbl_extend("keep", opts, { desc = "Move block up" }))
 
--- Exits from insert mode when pressing Ctrl-c
-vim.keymap.set("i", "<C-c>", "<Esc>")
+--------------------------------------------------------------------
+--  Registers / clipboard helpers
+--------------------------------------------------------------------
+map("x", "<leader>p", [["_dP]],      { silent = true, desc = "Paste over (keep clipboard)" })
+map({ "n", "v" }, "<leader>y", [["+y]],  { silent = true, desc = "Yank to system clipboard" })
+n("<leader>Y",     [["+Y]],              "Yank line to system clipboard")
+map({ "n", "v" }, "<leader>d", [["_d]],  { silent = true, desc = "Delete to black-hole" })
 
-vim.keymap.set("n", "Q", "<nop>")
+--------------------------------------------------------------------
+--  Terminal-mode paste
+--------------------------------------------------------------------
+map("t", "<C-v>", "<C-r><C-o>+", { silent = true, desc = "Paste clipboard in terminal" })
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+--------------------------------------------------------------------
+--  Insert-mode extras
+--------------------------------------------------------------------
+map("i", "<C-h>",  "<C-w>",   { silent = true, desc = "Delete word left" })
+map("i", "<C-Del>","<C-o>dw",{ silent = true, desc = "Delete word right" })
+map("i", "<C-c>",  "<Esc>",   { silent = true, desc = "Leave insert (Ctrl-c)" })
 
-vim.keymap.set("n", "<leader>rf", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+--------------------------------------------------------------------
+--  Command-line (:) navigation
+--------------------------------------------------------------------
+map("c", "<C-k>", [[wildmenumode() ? "<C-p>" : "<Up>"]],   { expr = true, desc = "Cmd-line previous" })
+map("c", "<C-j>", [[wildmenumode() ? "<C-n>" : "<Down>"]], { expr = true, desc = "Cmd-line next" })
 
--- Clear search highlights
-vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights", silent = true })
-
--- increment/decrement numbers
-vim.keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
-vim.keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
-
--- Window management
-vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
-vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })
-vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
-vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })
-
--- Tab management
-vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })
-vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })
-vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
-vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
-vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
+--------------------------------------------------------------------
+--  Misc quality-of-life
+--------------------------------------------------------------------
+n("Q", "<nop>", "Disable Ex mode")

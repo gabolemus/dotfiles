@@ -77,11 +77,6 @@ return {
             -- Configure lspkind for VS Code like pictograms in completion menu
             formatting = {
                 format = lspkind.cmp_format({
-                    -- -- Start of Copilot config
-                    -- mode = "symbol",
-                    -- max_width = 50,
-                    -- symbol_map = { Copilot = "" },
-                    -- -- End of Copilot config
                     maxwidth = 50,
                     ellipsis_char = "...",
                 }),

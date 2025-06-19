@@ -25,7 +25,8 @@ return {
     adapter = {
         name = "codelldb",
         type = "executable",
-        command = require("mason-registry").get_package("codelldb"):get_install_path() .. "/codelldb",
+        -- command = require("mason-registry").get_package("codelldb"):get_install_path() .. "/codelldb",
+        command = os.getenv("HOME") .. "/.local/share/nvim/mason/packages" .. "/codelldb",
     },
     debugger = {
         {

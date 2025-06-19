@@ -50,8 +50,8 @@ return {
         )
 
         -- Bindings
-        vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: Toggle breakpoint" })
-        vim.keymap.set("n", "<leader>dB", function()
+        vim.keymap.set("n", "<leader>tb", dap.toggle_breakpoint, { desc = "Debug: Toggle breakpoint" })
+        vim.keymap.set("n", "<leader>tB", function()
             dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
         end, { desc = "Debug: Set Breakpoint" })
         vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
