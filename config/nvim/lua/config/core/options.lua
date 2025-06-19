@@ -2,7 +2,7 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true        -- Enable cursorline (required for CursorLineNr)
-vim.opt.cursorlineopt = "number" -- Only highlight the line number, not the full line
+-- vim.opt.cursorlineopt = "number" -- Only highlight the line number, not the full line
 
 -- Window splitting behavior
 vim.opt.splitbelow = true
