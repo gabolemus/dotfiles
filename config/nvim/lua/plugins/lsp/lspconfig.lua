@@ -191,7 +191,7 @@ return {
         })
 
         -- Configure lua server (with special settings)
-        lspconfig["lua_ls"].setup({
+        vim.lsp.config("lua_ls", {
             capabilities = capabilities,
             on_attach = on_attach,
             settings = { -- Custom settings for lua

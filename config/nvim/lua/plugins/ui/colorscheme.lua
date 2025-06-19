@@ -21,8 +21,8 @@ return {
 
         -- Create toggle function globally so it can be mapped elsewhere
         function ToggleSonokaiTransparency()
-            local curren = vim.g.sonokai_transparent_background
-            vim.g.sonokai_transparent_background = current == 1 and 0 or 1
+            local current = vim.g.sonokai_transparent_background
+            vim.g.sonokai_transparent_background = (current == 1 and 0 or 1)
             vim.cmd.colorscheme("sonokai") -- reapply to trigger the change
 
             -- -- Optional: notify the transparency change
