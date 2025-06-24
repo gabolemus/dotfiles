@@ -25,7 +25,7 @@ return {
             ensure_installed = {
                 "rust_analyzer",
                 "clangd",
-                "pyright",
+                "jedi_language_server",
                 "ts_ls",
                 "html",
                 "cssls",
@@ -44,6 +44,8 @@ return {
                 "isort",        -- Python formatter
                 "autopep8",     -- Python formatter
                 "pylint",       -- Python linter
+                "ruff",         -- Python linter
+                "mypy",         -- Python linter
                 "eslint_d",     -- JavaScript linter
                 "clang-format", -- C/C++ formatter
                 "codelldb",     -- LLDB debugger

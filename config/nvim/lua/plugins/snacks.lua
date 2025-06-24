@@ -7,7 +7,6 @@ return {
         -- TODO: explore this plugin's options
         bigfile = { enabled = true },
         dashboard = { enabled = true },
-        input = { enabled = true },
         picker = { enabled = true },
         -- notifier = { enabled = true },
         -- notifier = {
