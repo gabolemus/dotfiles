@@ -155,17 +155,14 @@ return {
         })
 
         -- Configure Python language server
-        lspconfig["pyright"].setup({
+        vim.lsp.config("jedi_language_server", {
             capabilities = capabilities,
             on_attach = on_attach,
             filetypes = { "python" },
             settings = {
-                python = {
-                    venvPath = ".venv",
-                    analysis = {
-                        autoSearchPaths = true,
-                        useLibraryCodeForTypes = true,
-                        diagnosticMode = "workspace",
+                initializationOptions = {
+                    diagnostics = {
+                        enable = true,
                     },
                 },
             },
