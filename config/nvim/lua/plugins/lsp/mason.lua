@@ -44,6 +44,8 @@ return {
                 "isort",        -- Python formatter
                 "autopep8",     -- Python formatter
                 "pylint",       -- Python linter
+                "ruff",         -- Python linter
+                "mypy",         -- Python linter
                 "eslint_d",     -- JavaScript linter
                 "clang-format", -- C/C++ formatter
                 "codelldb",     -- LLDB debugger
