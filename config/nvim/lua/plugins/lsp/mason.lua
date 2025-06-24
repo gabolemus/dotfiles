@@ -25,7 +25,7 @@ return {
             ensure_installed = {
                 "rust_analyzer",
                 "clangd",
-                "pyright",
+                "jedi_language_server",
                 "ts_ls",
                 "html",
                 "cssls",
