@@ -150,6 +150,7 @@
 
     // Wofi Application Launcher
     "custom/appmenu": {
+        "format": "\udb82\udcc7",
         "on-click": "wofi --show drun",
         "on-click-right": "~/.config/hypr/scripts/keybindings.sh",
         "tooltip-format": "Left: Open the application launcher\nRight: Show all keybindings",
