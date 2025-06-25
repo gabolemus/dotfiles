@@ -4,8 +4,10 @@ iDIR="$HOME/.config/mako/icons"
 
 # Get brightness
 get_backlight() {
-	LIGHT=$(printf "%.0f\n" $(brightnessctl g))
-	echo "${LIGHT}"
+    CUR_VAL=$(brightnessctl g)
+    MAX_VAL=$(brightnessctl m)
+    PERCENT=$(awk "BEGIN { printf \"%d\", ($CUR_VAL / $MAX_VAL) * 100 }")
+    echo "$PERCENT%"
 }
 
 # Get icons
