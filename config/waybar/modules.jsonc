@@ -222,7 +222,6 @@
     "custom/weather": {
         "format": "{}",
         "tooltip": true,
-        // "interval": 1800,
         "restart-interval": 1800,
         "on-click": "python $HOME/.config/waybar/scripts/weather.py",
         "exec": "python $HOME/.config/waybar/scripts/weather.py",
