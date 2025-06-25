@@ -2,9 +2,7 @@
 hyprpaper.conf
 monitors.conf
 workspaces.conf
+conf/borders.conf
 
 # Custom wallpapers
 media/
-
-# Dynamic window borders
-conf/borders.conf
