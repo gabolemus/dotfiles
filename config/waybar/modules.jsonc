@@ -193,7 +193,7 @@
     "clock": {
         "interval": 60,
         "format": "{:%a, %b %d - %H:%M}",
-        "on-click": "ags toggle calendar",
+        "on-click": "ags -t calendar",
         "tooltip": true,
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
     },
