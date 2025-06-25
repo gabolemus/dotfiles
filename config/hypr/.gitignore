@@ -5,3 +5,6 @@ workspaces.conf
 
 # Custom wallpapers
 media/
+
+# Dynamic window borders
+conf/borders.conf
