@@ -375,7 +375,6 @@
         "format-connected": "Connected 󰂱",
         "format-off": "Off 󰂲",
         "format-disabled": "Disabled",
-        "interval": 30,
         "on-click": "blueman-manager",
         "format-no-controller": "",
     },
