@@ -336,7 +336,7 @@
         "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
-        "format-icons": [" ", " ", " ", " ", " "],
+        "format-icons": ["", "", "", "", ""],
         "on-update": "$HOME/.config/waybar/scripts/check_battery.sh",
     },
 
