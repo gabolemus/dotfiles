@@ -148,7 +148,7 @@
         "tooltip": false,
     },
 
-    // Rofi Application Launcher
+    // Wofi Application Launcher
     "custom/appmenu": {
         // START APPS LABEL
         "format": "Apps",
