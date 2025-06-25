@@ -3,6 +3,7 @@ hyprpaper.conf
 monitors.conf
 workspaces.conf
 conf/borders.conf
+conf/inactive_window_transparency.conf
 
 # Custom wallpapers
 media/
