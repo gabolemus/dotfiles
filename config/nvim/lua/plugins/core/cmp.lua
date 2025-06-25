@@ -43,8 +43,8 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ["<C-k>"] = cmp.mapping.select_prev_item(), -- Previous suggestion
                 ["<C-j>"] = cmp.mapping.select_next_item(), -- Next suggestion
-                ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                ["<C-b>"] = cmp.mapping.scroll_docs(-5),
+                ["<C-f>"] = cmp.mapping.scroll_docs(5),
                 ["<C-Space>"] = cmp.mapping.complete(), -- Show completion suggestions
                 ["<C-e>"] = cmp.mapping.abort(),        -- Close completion window
                 ["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -67,7 +67,6 @@ return {
             }),
             -- Sources for autocompletion
             sources = cmp.config.sources({
-                -- { name = "copilot", group_index = 2 }, -- Copilot config
                 { name = "nvim_lsp" }, -- LSP
                 { name = "luasnip" },  -- Snippets
                 { name = "buffer" },   -- Text within current buffer
