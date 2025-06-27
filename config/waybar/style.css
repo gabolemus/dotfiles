@@ -17,6 +17,7 @@ window#waybar {
     border-radius: 0.75em;
     transition: none;
     background: #383c4a;
+    margin-right: 0.5em;
 }
 
 #workspaces button {
