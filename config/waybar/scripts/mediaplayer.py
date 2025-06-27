@@ -199,10 +199,12 @@ class PlayerManager:
 
         def loop():
             padded = full_text + "   "
+            logger.debug(f"Starting scroll loop for {name}")
             while self.config.last_metadata.get(name) == full_text:
                 for i in range(0, len(padded) - self.config.scroll_width + 1, self.config.scroll_step):
                     if self.config.last_metadata.get(name) != full_text:
-                        return  # Exit if track info changed
+                        logger.debug(f"Scroll loop exiting for {name}")
+                        return
                     visible = padded[i:i+self.config.scroll_width]
                     self.write_output(visible, tooltip, player)
                     time.sleep(self.config.scroll_delay)
@@ -287,6 +289,14 @@ class PlayerManager:
             player: The player that vanished.
         """
         logger.info(f"Player {player.props.player_name} has vanished")
+
+        name = player.props.player_name
+        # Stop any active scroll thread
+        old_thread = self.config.scroll_threads.get(name)
+        if old_thread is not None and old_thread.is_alive():
+            self.config.last_metadata[name] = None  # Invalidate scrolling
+            self.config.scroll_threads[name] = None  # Clear the thread ref
+
         self.show_most_important_player()
 
 
