@@ -51,7 +51,7 @@ class PlayerManagerConfig:
 class PlayerManager:
     """Manages media players using Playerctl and displays metadata."""
 
-    def __init__(self, selected_player=None, excluded_player=[]):
+    def __init__(self, selected_player=None, excluded_player=[], only_show_icon=False):
         """
         Initialize the PlayerManager.
 
@@ -75,6 +75,7 @@ class PlayerManager:
             ',') if excluded_player else []
 
         self.config = PlayerManagerConfig()
+        self.only_show_icon = only_show_icon
 
         self.init_players()
 
@@ -233,8 +234,14 @@ class PlayerManager:
             track_info = title or ""
 
         if track_info:
+            # icon = "" if player.props.status == "Playing" else ""
+            # track_info = f"{icon}   {track_info}"
             icon = "" if player.props.status == "Playing" else ""
-            track_info = f"{icon}   {track_info}"
+            if self.only_show_icon:
+                track_info = f"{icon}"  # icon + Spotify logo
+            else:
+                # Only text
+                pass  # don't prepend icon
 
         current_playing = self.get_first_playing_player()
         if current_playing is None or current_playing.props.player_name == player.props.player_name:
@@ -297,6 +304,9 @@ def parse_arguments():
     parser.add_argument(
         "--player", help="Only display metadata for this specific player")
     parser.add_argument("--enable-logging", action="store_true")
+    parser.add_argument("--only-show-icon", action="store_true",
+                        help="Only display the icon, no text")
+
     return parser.parse_args()
 
 
@@ -317,7 +327,8 @@ def main():
     if arguments.exclude:
         logger.info(f"Exclude player {arguments.exclude}")
 
-    player = PlayerManager(arguments.player, arguments.exclude)
+    player = PlayerManager(
+        arguments.player, arguments.exclude, arguments.only_show_icon)
     player.run()
 
 
