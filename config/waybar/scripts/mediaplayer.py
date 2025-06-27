@@ -13,22 +13,39 @@ import logging
 import os
 import signal
 import sys
+import threading
+import time
 from typing import List
 
 import gi
-gi.require_version("Playerctl", "2.0")
 from gi.repository import GLib, Playerctl
 from gi.repository.Playerctl import Player
+
+gi.require_version("Playerctl", "2.0")
 
 logger = logging.getLogger(__name__)
 
 
 def signal_handler(sig, frame):
-    """Handle termination signals to gracefully exit the program."""
+    """Handles termination signals and gracefully exits the program."""
     logger.info("Received signal to stop, exiting")
     sys.stdout.write("\n")
     sys.stdout.flush()
     sys.exit(0)
+
+
+class PlayerManagerConfig:
+    """Helper class to the `PlayerManager` to contain its config."""
+
+    def __init__(self):
+        """
+        Initialize the PlayerManager.
+        """
+        self.scroll_width = 36
+        self.scroll_delay = 0.5
+        self.scroll_step = 1
+        self.scroll_threads = {}
+        self.last_metadata = {}  # player name -> last track info string
 
 
 class PlayerManager:
@@ -56,6 +73,8 @@ class PlayerManager:
         self.selected_player = selected_player
         self.excluded_player = excluded_player.split(
             ',') if excluded_player else []
+
+        self.config = PlayerManagerConfig()
 
         self.init_players()
 
@@ -104,14 +123,12 @@ class PlayerManager:
             player (Player): The media player associated with the output.
         """
         logger.debug(f"Writing output: {text}")
-
         output = {
             "text": text,
             "tooltip": tooltip,
             "class": "custom-" + player.props.player_name,
             "alt": player.props.player_name
         }
-
         sys.stdout.write(json.dumps(output) + "\n")
         sys.stdout.flush()
 
@@ -163,6 +180,36 @@ class PlayerManager:
         else:
             self.clear_output()
 
+    def scroll_text(self, full_text: str, tooltip: str, player):
+        """Starts a scrolling thread to display track info that exceeds the width limit."""
+        name = player.props.player_name
+
+        # Check if we're already scrolling the same content
+        if self.config.last_metadata.get(name) == full_text:
+            return
+
+        # Save new metadata
+        self.config.last_metadata[name] = full_text
+
+        # Stop old thread if it exists
+        old_thread = self.config.scroll_threads.get(name)
+        if old_thread is not None and old_thread.is_alive():
+            self.config.scroll_threads[name] = None
+
+        def loop():
+            padded = full_text + "   "
+            while self.config.last_metadata.get(name) == full_text:
+                for i in range(0, len(padded) - self.config.scroll_width + 1, self.config.scroll_step):
+                    if self.config.last_metadata.get(name) != full_text:
+                        return  # Exit if track info changed
+                    visible = padded[i:i+self.config.scroll_width]
+                    self.write_output(visible, tooltip, player)
+                    time.sleep(self.config.scroll_delay)
+
+        thread = threading.Thread(target=loop, daemon=True)
+        self.config.scroll_threads[name] = thread
+        thread.start()
+
     def on_metadata_changed(self, player, metadata, _=None):
         """
         Callback triggered when player metadata changes.
@@ -177,31 +224,32 @@ class PlayerManager:
         title = player.get_title()
         tooltip = ""
 
-        track_info = ""
         if player_name == "spotify" and "mpris:trackid" in metadata.keys() and ":ad:" in player.props.metadata["mpris:trackid"]:
             track_info = "Advertisement"
         elif artist is not None and title is not None:
             tooltip = f"{artist} — {title}"
-
-            if len(artist) > 11:
-                artist = f"{artist[:11]}…"
-
-            if len(title) > 25:
-                title = f"{title[:25]}…"
-
             track_info = f"{artist} — {title}"
         else:
-            track_info = title
+            track_info = title or ""
 
         if track_info:
-            if player.props.status == "Playing":
-                track_info = f"   {track_info} "
-            else:
-                track_info = f"   {track_info} "
+            icon = "" if player.props.status == "Playing" else ""
+            track_info = f"{icon}   {track_info}"
 
         current_playing = self.get_first_playing_player()
         if current_playing is None or current_playing.props.player_name == player.props.player_name:
-            self.write_output(track_info, tooltip, player)
+            name = player.props.player_name
+
+            if len(track_info) <= self.config.scroll_width:
+                # Stop scrolling if it was active
+                old_thread = self.config.scroll_threads.get(name)
+                if old_thread is not None and old_thread.is_alive():
+                    self.config.scroll_threads[name] = None
+
+                self.config.last_metadata[name] = None  # Clear scroll state
+                self.write_output(track_info, tooltip, player)
+            else:
+                self.scroll_text(track_info, tooltip, player)
         else:
             logger.debug(
                 f"Other player {current_playing.props.player_name} is playing, skipping")
@@ -243,34 +291,23 @@ def parse_arguments():
         argparse.Namespace: Parsed arguments.
     """
     parser = argparse.ArgumentParser()
-
-    parser.add_argument("-v", "--verbose", action="count", default=0,
-                        help="Increase logging verbosity (can be used multiple times)")
-
+    parser.add_argument("-v", "--verbose", action="count", default=0)
     parser.add_argument("-x", "--exclude",
                         help="Comma-separated list of excluded players")
-
-    parser.add_argument("--player",
-                        help="Only display metadata for this specific player")
-
-    parser.add_argument("--enable-logging", action="store_true",
-                        help="Enable detailed logging to a file")
-
+    parser.add_argument(
+        "--player", help="Only display metadata for this specific player")
+    parser.add_argument("--enable-logging", action="store_true")
     return parser.parse_args()
 
 
 def main():
     """Main entry point for the script."""
     arguments = parse_arguments()
-
     if arguments.enable_logging:
         logfile = os.path.join(os.path.dirname(
             os.path.realpath(__file__)), "media-player.log")
-        logging.basicConfig(
-            filename=logfile,
-            level=logging.DEBUG,
-            format="%(asctime)s %(name)s %(levelname)s:%(lineno)d %(message)s"
-        )
+        logging.basicConfig(filename=logfile, level=logging.DEBUG,
+                            format="%(asctime)s %(name)s %(levelname)s:%(lineno)d %(message)s")
 
     logger.setLevel(max((3 - arguments.verbose) * 10, 0))
 
