@@ -64,13 +64,22 @@ window#waybar {
     background: #383c4a;
 }
 
-#custom-spotify {
+#custom-spotify-text {
     padding-left: 1em;
-    padding-right: 1.25em;
-    border-radius: 0.75em;
+    padding-right: 0.25em;
+    border-radius: 0.75em 0 0 0.75em;
     color: #ffffff;
     background: #383c4a;
-    min-width: 20em;
+    min-width: 18em;
+}
+
+#custom-spotify-icon {
+    /* padding-left: 1em; */
+    padding-right: 1.25em;
+    border-radius: 0 0.75em 0.75em 0;
+    color: #ffffff;
+    background: #383c4a;
+    /* min-width: 20em; */
 }
 
 #custom-pacman {
