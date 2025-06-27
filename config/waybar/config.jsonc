@@ -12,14 +12,9 @@
         "~/.config/waybar/modules.jsonc",
     ],
     // Modules Left
-    "modules-left": ["hyprland/workspaces"],
+    "modules-left": ["hyprland/workspaces", "custom/spotify"],
     // Modules Center
-    "modules-center": [
-        "clock",
-        "custom/weather",
-        "custom/appmenu",
-        "custom/spotify",
-    ],
+    "modules-center": ["clock", "custom/weather", "custom/appmenu"],
     // Modules Right
     "modules-right": [
         "pulseaudio",
