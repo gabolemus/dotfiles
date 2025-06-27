@@ -14,7 +14,12 @@
     // Modules Left
     "modules-left": ["hyprland/workspaces"],
     // Modules Center
-    "modules-center": ["clock", "custom/weather", "custom/appmenu"],
+    "modules-center": [
+        "clock",
+        "custom/weather",
+        "custom/appmenu",
+        "custom/spotify",
+    ],
     // Modules Right
     "modules-right": [
         "pulseaudio",
