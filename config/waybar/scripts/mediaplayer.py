@@ -18,10 +18,9 @@ import time
 from typing import List
 
 import gi
+gi.require_version("Playerctl", "2.0")
 from gi.repository import GLib, Playerctl
 from gi.repository.Playerctl import Player
-
-gi.require_version("Playerctl", "2.0")
 
 logger = logging.getLogger(__name__)
 
