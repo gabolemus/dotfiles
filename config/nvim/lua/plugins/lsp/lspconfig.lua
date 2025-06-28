@@ -155,14 +155,17 @@ return {
         })
 
         -- Configure Python language server
-        vim.lsp.config("jedi_language_server", {
+        vim.lsp.config("pylsp", {
             capabilities = capabilities,
             on_attach = on_attach,
             filetypes = { "python" },
             settings = {
-                initializationOptions = {
-                    diagnostics = {
-                        enable = true,
+                pylsp = {
+                    plugins = {
+                        pycodestyle = {
+                            maxLineLength = 100,
+                        },
+                        jedi_completion = { fuzzy = true },
                     },
                 },
             },
