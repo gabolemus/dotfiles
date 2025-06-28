@@ -66,6 +66,39 @@
         "separate-outputs": true,
     },
 
+    // Spotify
+    "custom/spotify-text": {
+        "format": "{}",
+        "escape": true,
+        "return-type": "json",
+        "max-length": 50,
+        // "interval": 1,
+        // "interval": 30, // Remove this if your script is endless and write in loop
+        "on-click": "playerctl -p spotify play-pause",
+        "on-click-right": "killall spotify",
+        "smooth-scrolling-threshold": 1, // This value was tested using a trackpad, it should be lowered if using a mouse.
+        "on-scroll-up": "playerctl -p spotify next",
+        "on-scroll-down": "playerctl -p spotify previous",
+        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py --player spotify", // Script in resources/custom_modules folder
+        "exec-if": "pgrep spotify",
+    },
+
+    "custom/spotify-icon": {
+        "format": "{} ",
+        "escape": true,
+        "return-type": "json",
+        "max-length": 50,
+        // "interval": 1,
+        // "interval": 30, // Remove this if your script is endless and write in loop
+        "on-click": "playerctl -p spotify play-pause",
+        "on-click-right": "killall spotify",
+        "smooth-scrolling-threshold": 1, // This value was tested using a trackpad, it should be lowered if using a mouse.
+        "on-scroll-up": "playerctl -p spotify next",
+        "on-scroll-down": "playerctl -p spotify previous",
+        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py --player spotify --only-show-icon", // Script in resources/custom_modules folder
+        "exec-if": "pgrep spotify",
+    },
+
     // ML4W Welcome App
     "custom/ml4w-welcome": {
         "on-click": "ags toggle sidebar",
