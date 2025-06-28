@@ -16,16 +16,16 @@ CHECK_INTERVAL = 15  # Seconds between checks
 MAX_WAIT_TIME = 180  # Maximum time to wait for an internet connection (in seconds)
 
 WEATHER_CODES = {
-    '113': '☀️', '116': '⛅️', '119': '☁️', '122': '☁️', '143': '🌫',
-    '176': '🌦', '179': '🌧', '182': '🌧', '185': '🌧', '200': '⛈',
-    '227': '🌨', '230': '❄️', '248': '🌫', '260': '🌫', '263': '🌦',
-    '266': '🌦', '281': '🌧', '284': '🌧', '293': '🌦', '296': '🌦',
-    '299': '🌧', '302': '🌧', '305': '🌧', '308': '🌧', '311': '🌧',
-    '314': '🌧', '317': '🌧', '320': '🌨', '323': '🌨', '326': '🌨',
-    '329': '❄️', '332': '❄️', '335': '❄️', '338': '❄️', '350': '🌧',
-    '353': '🌦', '356': '🌧', '359': '🌧', '362': '🌧', '365': '🌧',
-    '368': '🌨', '371': '❄️', '374': '🌧', '377': '🌧', '386': '⛈',
-    '389': '🌩', '392': '⛈', '395': '❄️'
+    "113": "☀️", "116": "⛅️", "119": "☁️", "122": "☁️", "143": "🌫",
+    "176": "🌦", "179": "🌧", "182": "🌧", "185": "🌧", "200": "⛈",
+    "227": "🌨", "230": "❄️", "248": "🌫", "260": "🌫", "263": "🌦",
+    "266": "🌦", "281": "🌧", "284": "🌧", "293": "🌦", "296": "🌦",
+    "299": "🌧", "302": "🌧", "305": "🌧", "308": "🌧", "311": "🌧",
+    "314": "🌧", "317": "🌧", "320": "🌨", "323": "🌨", "326": "🌨",
+    "329": "❄️", "332": "❄️", "335": "❄️", "338": "❄️", "350": "🌧",
+    "353": "🌦", "356": "🌧", "359": "🌧", "362": "🌧", "365": "🌧",
+    "368": "🌨", "371": "❄️", "374": "🌧", "377": "🌧", "386": "⛈",
+    "389": "🌩", "392": "⛈", "395": "❄️"
 }
 
 def check_internet_connection():
@@ -58,6 +58,7 @@ def fetch_weather():
     except (SSLError, requests.RequestException):
         return fetch_weather_open_meteo()
 
+
 def fetch_weather_open_meteo():
     """Fetches the weather data from Open-Meteo as a fallback."""
     try:
@@ -68,17 +69,19 @@ def fetch_weather_open_meteo():
     except requests.RequestException as e:
         return {"error": f"Open-Meteo error: {str(e)}"}
 
+
 def format_open_meteo(data):
     """Formats Open-Meteo data to match the wttr.in structure."""
     current = data["current_weather"]
     daily = data["daily"]
-    
+
     weather_data = {
         "current_condition": [{
             "temp_C": str(current["temperature"]),
-            "FeelsLikeC": str(current["temperature"]),  # Open-Meteo lacks "feels like" temp
+            # Open-Meteo lacks "feels like" temp
+            "FeelsLikeC": str(current["temperature"]),
             "windspeedKmph": str(current["windspeed"]),
-            "humidity": "N/A",  # Open-Meteo does not provide humidity in free tier
+            "humidity": "N/A",  # Open-Meteo does not provide humidity in the free tier
             "weatherCode": "113",  # Assume clear weather if no specific condition is given
             "weatherDesc": [{"value": "Clear"}]
         }],
@@ -95,21 +98,23 @@ def format_open_meteo(data):
     }
     return weather_data
 
+
 def generate_tooltip(weather_data):
     """Generates the module tooltip."""
-    current = weather_data['current_condition'][0]
+    current = weather_data["current_condition"][0]
     tooltip = [
-        f"<b>{current['weatherDesc'][0]['value']} {current['temp_C']}°</b>",
-        f"Feels like: {current['FeelsLikeC']}°",
-        f"Wind: {current['windspeedKmph']}Km/h",
-        f"Humidity: {current.get('humidity', 'N/A')}%",
+        f"<b>{current["weatherDesc"][0]["value"]} {current["temp_C"]}°</b>",
+        f"Feels like: {current["FeelsLikeC"]}°",
+        f"Wind: {current["windspeedKmph"]}Km/h",
+        f"Humidity: {current.get("humidity", "N/A")}%",
     ]
 
-    for i, day in enumerate(weather_data['weather']):
-        date_label = "Today" if i == 0 else "Tomorrow" if i == 1 else day['date']
+    for i, day in enumerate(weather_data["weather"]):
+        date_label = "Today" if i == 0 else "Tomorrow" if i == 1 else day["date"]
         tooltip.append(f"\n<b>{date_label}</b>")
-        tooltip.append(f"⬆️ {day['maxtempC']}° ⬇️ {day['mintempC']}°")
-        tooltip.append(f" {day['astronomy'][0]['sunrise']}  {day['astronomy'][0]['sunset']}")
+        tooltip.append(f"⬆️ {day["maxtempC"]}° ⬇️ {day["mintempC"]}°")
+        tooltip.append(
+            f"{day["astronomy"][0]["sunrise"]} ☀️ {day["astronomy"][0]["sunset"]} 🌙")
 
     return "\n".join(tooltip)
 
@@ -126,25 +131,32 @@ def main():
     loading_thread.start()
 
     if not wait_for_internet_connection():
-        print(json.dumps({"text": "❌ no internet", "tooltip": "No internet connection available."}))
+        loading_stop_event.set()
+        loading_thread.join()
+        print(json.dumps({"text": "󰖪",
+                          "tooltip": "<b>No Internet connection available.</b>\nPlease reconnect to get the weather data."}))
         sys.stdout.flush()
         return
 
-    # Fetch and display weather data in the main thread
     weather_data = fetch_weather()
 
-    if 'error' in weather_data:
-        output = {"text": "❌ Error", "tooltip": weather_data['error']}
+    loading_stop_event.set()
+    loading_thread.join()
+
+    if "error" in weather_data:
+        output = {"text": "❌ Error", "tooltip": weather_data["error"]}
     else:
-        current = weather_data['current_condition'][0]
-        weather_icon = WEATHER_CODES.get(current.get('weatherCode', '113'), '❓')
-        weather_text = f"{weather_icon} {current['FeelsLikeC']}°"
+        current = weather_data["current_condition"][0]
+        weather_icon = WEATHER_CODES.get(
+            current.get("weatherCode", "113"), "❓")
+        weather_text = f"{weather_icon} {current["FeelsLikeC"]}°"
         output = {
             "text": weather_text,
             "tooltip": generate_tooltip(weather_data)
         }
 
     print(json.dumps(output))
+
 
 if __name__ == "__main__":
     main()
