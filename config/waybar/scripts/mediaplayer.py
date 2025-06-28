@@ -36,13 +36,13 @@ def signal_handler(sig, frame):
 class PlayerManagerConfig:
     """Helper class to the `PlayerManager` to contain its config."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize the PlayerManager.
         """
-        self.scroll_width = 36
-        self.scroll_delay = 0.5
-        self.scroll_step = 1
+        self.scroll_width: int = 36
+        self.scroll_delay: float = 0.5
+        self.scroll_step: int = 1
         self.scroll_threads = {}
         self.last_metadata = {}  # player name -> last track info string
 
