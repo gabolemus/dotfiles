@@ -4,7 +4,6 @@ import json
 import sys
 import threading
 import time
-from datetime import datetime
 
 import requests
 from requests.exceptions import SSLError
