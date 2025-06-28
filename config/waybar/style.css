@@ -124,6 +124,7 @@ window#waybar {
     transition: none;
     color: #ffffff;
     background: #383c4a;
+    min-width: 3em;
 }
 
 #custom-appmenu {
