@@ -40,7 +40,7 @@ class PlayerManagerConfig:
         """
         Initialize the PlayerManager.
         """
-        self.scroll_width: int = 36
+        self.scroll_width: int = 39
         self.scroll_delay: float = 0.5
         self.scroll_step: int = 1
         self.scroll_threads = {}
