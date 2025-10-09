@@ -1,1 +1,2 @@
-plugins
+plugins/*
+!plugins/tmux-themepack/powerline/default/cyan.tmuxtheme
