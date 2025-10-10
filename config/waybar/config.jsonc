@@ -18,7 +18,7 @@
         "custom/spotify-icon",
     ],
     // Modules Center
-    "modules-center": ["clock", "custom/weather", "custom/appmenu"],
+    "modules-center": ["clock", "custom/weather"],
     // Modules Right
     "modules-right": [
         "pulseaudio",
