@@ -22,14 +22,10 @@
     // Modules Right
     "modules-right": [
         "pulseaudio",
-        // "custom/mem",
-        // "cpu",
         "backlight",
         "bluetooth",
         "battery",
         "network",
-        // "group/hardware",
-        // "group/tools",
         "tray",
         "custom/exit",
     ],
