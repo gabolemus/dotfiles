@@ -210,6 +210,8 @@ window#waybar {
     transition: none;
     color: #ffffff;
     background: #383c4a;
+    border-radius: 0 0.75em 0.75em 0;
+    margin-right: 8px;
 }
 
 #battery.charging {
