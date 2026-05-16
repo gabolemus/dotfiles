@@ -16,19 +16,17 @@ local function get_volume_icon(volume)
 	end
 end
 
-local function notify_volume()
-	local volume = get_volume()
+local function change_volume(args)
+	local volume = tonumber(CMD_OUTPUT("pamixer " .. args .. " && pamixer --get-volume")) or 0
 	NOTIFY(get_volume_icon(volume), string.format("Volume: %d%%", volume))
 end
 
 function increase_volume()
-	hl.exec_cmd("pamixer -i 2")
-	notify_volume()
+	change_volume("-i 2")
 end
 
 function decrease_volume()
-	hl.exec_cmd("pamixer -d 2")
-	notify_volume()
+	change_volume("-d 2")
 end
 
 function toggle_mute()
