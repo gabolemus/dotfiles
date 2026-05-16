@@ -1,0 +1,6 @@
+require("conf.utils.brightness")
+require("conf.utils.mullvad")
+require("conf.utils.volume")
+require("conf.utils.wallpaper")
+require("conf.utils.waybar")
+require("conf.utils.window_opacity")

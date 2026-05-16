@@ -8,251 +8,210 @@ return {
         { "antosha417/nvim-lsp-file-operations", config = true },
     },
     config = function()
-        local lspconfig = require("lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
-        local opts = { noremap = true, silent = true }
-        local util = require("lspconfig/util")
 
-        -- Give floating windows borders
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-            focusable = true,
-            style = "minimal",
-            border = "rounded",
-        })
-        vim.diagnostic.config({
-            float = { border = "rounded" },
-        })
-
-        -- Todo: refactor this definitions so that they can both be used with RustaceanNvim
-        local on_attach = function(_, bufnr)
-            opts.buffer = bufnr
-
-            -- Keybindings
-            opts.desc = "Show LSP references"
-            vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- Show definition, references
-
-            opts.desc = "Go to declaration"
-            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- Go to declaration
-
-            opts.desc = "Show LSP definitions"
-            vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- Show lsp definitions
-
-            opts.desc = "Show LSP implementations"
-            vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- Show lsp implementations
-
-            opts.desc = "Show LSP type definitions"
-            vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- Show lsp type definitions
-
-            opts.desc = "See available code actions"
-            vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- See available code actions, in visual mode will apply to selection
-
-            opts.desc = "Smart rename"
-            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- Smart rename
-
-            opts.desc = "Show buffer diagnostics"
-            vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- Show diagnostics for file
-
-            opts.desc = "Show line diagnostics"
-            vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- Show diagnostics for line
-
-            opts.desc = "Go to previous diagnostic"
-            vim.keymap.set("n", "[d", function()
-                vim.diagnostic.jump({ count = -1, float = true })
-            end, opts) -- Jump to previous diagnostic in buffer
-
-            opts.desc = "Go to next diagnostic"
-            vim.keymap.set("n", "]d", function()
-                vim.diagnostic.jump({ count = 1, float = true })
-            end, opts) -- Jump to next diagnostic in buffer
-
-            opts.desc = "Show documentation for what is under cursor"
-            vim.keymap.set("n", "K", function()
-                vim.lsp.buf.hover({
-                    border = "rounded",
-                })
-            end, opts) -- Show documentation for what is under cursor
-
-            opts.desc = "Restart LSP"
-            vim.keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts) -- Mapping to restart lsp if necessary
-        end
-
-        -- Used to enable autocompletion (assign to every lsp server config)
+        -- Capabilities for completion
         local capabilities = cmp_nvim_lsp.default_capabilities()
 
-        -- Change the Diagnostic symbols in the sign column (gutter)
         vim.diagnostic.config({
+            float = { border = "rounded" },
             signs = {
                 text = {
-                    [vim.diagnostic.severity.ERROR] = "", -- Error
-                    [vim.diagnostic.severity.WARN] = "", -- Warning
-                    [vim.diagnostic.severity.INFO] = "", -- Info
-                    [vim.diagnostic.severity.HINT] = "", -- Hint
-                },
-
-                -- Optional: highlight groups for the sign glyph itself
-                numhl = { -- or `linehl`
-                    [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-                    [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-                    [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-                    [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+                    [vim.diagnostic.severity.ERROR] = "",
+                    [vim.diagnostic.severity.WARN] = "",
+                    [vim.diagnostic.severity.INFO] = "",
+                    [vim.diagnostic.severity.HINT] = "",
                 },
             },
         })
 
-        -- LSPs to be configured with default settings
-        local servers = {
-            "html",
-            "cssls",
-            "eslint",
-        }
-
-        -- Loop through servers and configure them
-        for _, server in ipairs(servers) do
-            lspconfig[server].setup({
-                capabilities = capabilities,
-                on_attach = on_attach,
-            })
+        -- Inlay hints helpers
+        local function enable_inlay_hints(bufnr)
+            if vim.lsp.inlay_hint then
+                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+            elseif vim.lsp.buf and vim.lsp.buf.inlay_hint then
+                vim.lsp.buf.inlay_hint(bufnr, true)
+            end
         end
 
+        local function toggle_inlay_hints(bufnr)
+            if vim.lsp.inlay_hint and vim.lsp.inlay_hint.is_enabled then
+                local on = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+                vim.lsp.inlay_hint.enable(not on, { bufnr = bufnr })
+            elseif vim.lsp.buf and vim.lsp.buf.inlay_hint then
+                vim.b[bufnr].inlay_hints_enabled = not vim.b[bufnr].inlay_hints_enabled
+                vim.lsp.buf.inlay_hint(bufnr, vim.b[bufnr].inlay_hints_enabled)
+            end
+        end
+
+        -- ✅ The “native” attach hook
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
+            callback = function(args)
+                local bufnr = args.buf
+                local client = vim.lsp.get_client_by_id(args.data.client_id)
+                if not client then
+                    return
+                end
+
+                local opts = { noremap = true, silent = true, buffer = bufnr }
+
+                -- Enable inlay hints if supported
+                if client.server_capabilities and client.server_capabilities.inlayHintProvider then
+                    enable_inlay_hints(bufnr)
+                end
+
+                opts.desc = "Toggle inlay hints"
+                vim.keymap.set("n", "<leader>uh", function()
+                    toggle_inlay_hints(bufnr)
+                end, opts)
+
+                opts.desc = "Show LSP references"
+                vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
+
+                opts.desc = "Go to declaration"
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
+                opts.desc = "Show LSP definitions"
+                vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+
+                opts.desc = "Show LSP implementations"
+                vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+
+                opts.desc = "Show LSP type definitions"
+                vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+
+                opts.desc = "Code actions"
+                vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+
+                opts.desc = "Smart rename"
+                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
+                opts.desc = "Show buffer diagnostics"
+                vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+
+                opts.desc = "Show line diagnostics"
+                vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+
+                opts.desc = "Prev diagnostic"
+                vim.keymap.set("n", "[d", function()
+                    vim.diagnostic.jump({ count = -1, float = true })
+                end, opts)
+
+                opts.desc = "Next diagnostic"
+                vim.keymap.set("n", "]d", function()
+                    vim.diagnostic.jump({ count = 1, float = true })
+                end, opts)
+
+                -- -- You don’t need to remap K on 0.11+ unless you want to override defaults.
+                -- opts.desc = "Hover"
+                -- vim.keymap.set("n", "K", function()
+                --     vim.lsp.buf.hover({ border = "rounded" })
+                -- end, opts)
+
+                opts.desc = "Restart LSP"
+                vim.keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts)
+            end,
+        })
+
+        -- Optional: set shared defaults once
+        vim.lsp.config("*", {
+            capabilities = capabilities,
+        })
+
+        -- Basic servers
+        for _, server in ipairs({ "html", "cssls", "eslint" }) do
+            vim.lsp.config(server, {}) -- merges with lsp/<server>.lua from nvim-lspconfig
+        end
+
+        -- TS
         local function organize_imports()
-            local params = {
-                command = "_typescript.organizeImports",
-                arguments = { vim.api.nvim_buf_get_name(0) },
-            }
-            vim.lsp.buf.execute_command(params)
+            local clients = vim.lsp.get_clients({ name = "tsserver" })
+            for _, client in ipairs(clients) do
+                client:exec_cmd({
+                    title = "",
+                    command = "_typescript.organizeImports",
+                    arguments = { vim.api.nvim_buf_get_name(0) },
+                }, {
+                    bufnr = 0,
+                })
+            end
         end
 
-        -- Configure JavaScript/TypeScript language server
-        lspconfig["ts_ls"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
+        vim.lsp.config("ts_ls", {
             commands = {
-                OrganizeImports = {
-                    organize_imports,
-                    description = "Organize Imports",
-                },
+                OrganizeImports = { organize_imports, description = "Organize Imports" },
             },
-            init_options = {
-                preferences = {
-                    disableSuggestions = true,
-                },
-            },
+            init_options = { preferences = { disableSuggestions = true } },
         })
 
-        lspconfig["rust_analyzer"].setup({
+        -- Rust
+        vim.lsp.config("rust_analyzer", {
             capabilities = capabilities,
-            on_attach = on_attach,
+            root_markers = { "Cargo.toml", "rust-project.json" },
             filetypes = { "rust" },
-            root_dir = util.root_pattern("Cargo.toml"),
+            single_file_support = true,
             settings = {
                 ["rust-analyzer"] = {
-                    diagnostics = {
+                    diagnostics = { enable = true },
+                    inlayHints = {
                         enable = true,
+                        parameterHints = { enable = true },
+                        typeHints = { enable = true },
+                        chainingHints = { enable = true },
+                        bindingModeHints = { enable = true },
+                        closingBraceHints = { minLines = 25 },
+                        lifetimeElisionHints = { enable = "always" },
+                        implicitDrops = { enable = true },
                     },
                 },
             },
         })
 
-        -- Configure Python language server
+        vim.lsp.enable("rust_analyzer")
+
+        -- C#
+        vim.lsp.enable("csharp_ls")
+
+        -- Python
         vim.lsp.config("pylsp", {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            filetypes = { "python" },
             settings = {
                 pylsp = {
                     plugins = {
-                        pycodestyle = {
-                            maxLineLength = 100,
+                        pycodestyle = { maxLineLength = 100 },
+                        jedi_completion = {
+                            fuzzy = true,
+                            include_params = true,
                         },
-                        jedi_completion = { fuzzy = true },
                     },
                 },
             },
         })
 
-        -- Clangd for C/C++
-        lspconfig["clangd"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
+        -- Clangd
+        vim.lsp.config("clangd", {
             cmd = { "clangd", "--offset-encoding=utf-16" },
         })
 
-        -- Configure emmet language server
-        lspconfig["emmet_ls"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
+        -- Emmet
+        vim.lsp.config("emmet_ls", {
             filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
         })
 
-        -- Latex language server
-        lspconfig["ltex"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
+        -- LTeX
+        vim.lsp.config("ltex", {
             settings = {
-                ltex = {
-                    language = "es",
-                    checkFrequency = "save",
-                },
+                ltex = { language = "es", checkFrequency = "save" },
             },
             filetypes = { "bib", "plaintex", "tex", "pandoc", "quarto", "rmd", "context", "mail" },
         })
 
-        -- Configure lua server (with special settings)
+        -- Lua
         vim.lsp.config("lua_ls", {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            on_init = function(client)
-                if client.workspace_folders then
-                    local path = client.workspace_folders[1].name
-                    if
-                        path ~= vim.fn.stdpath("config")
-                        and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
-                    then
-                        return
-                    end
-                end
-
-                client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-                    runtime = {
-                        -- Tell the language server which version of Lua you're using (most
-                        -- likely LuaJIT in the case of Neovim)
-                        version = "LuaJIT",
-                        -- Tell the language server how to find Lua modules same way as Neovim
-                        -- (see `:h lua-module-load`)
-                        path = {
-                            "lua/?.lua",
-                            "lua/?/init.lua",
-                        },
-                    },
-                    -- Make the server aware of Neovim runtime files
-                    workspace = {
-                        checkThirdParty = false,
-                        library = {
-                            vim.env.VIMRUNTIME,
-                            -- Depending on the usage, you might want to add additional paths
-                            -- here.
-                            -- '${3rd}/luv/library'
-                            -- '${3rd}/busted/library'
-                        },
-                        -- Or pull in all of 'runtimepath'.
-                        -- NOTE: this is a lot slower and will cause issues when working on
-                        -- your own configuration.
-                        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
-                        -- library = {
-                        --   vim.api.nvim_get_runtime_file('', true),
-                        -- }
-                    },
-                })
-            end,
             settings = {
                 Lua = {
-                    -- Make the language server recognize "vim" global
-                    diagnostics = {
-                        globals = { "vim" },
-                    },
+                    diagnostics = { globals = { "vim" } },
                     workspace = {
-                        -- Make the LSP aware of the runtime files
                         library = {
                             [vim.fn.expand("$VIMRUNTIME/lua")] = true,
                             [vim.fn.stdpath("config") .. "/lua"] = true,
@@ -260,6 +219,20 @@ return {
                     },
                 },
             },
+        })
+
+        -- Enable everything (once)
+        vim.lsp.enable({
+            "html",
+            "cssls",
+            "eslint",
+            "ts_ls",
+            "rust_analyzer",
+            "pylsp",
+            "clangd",
+            "emmet_ls",
+            "ltex",
+            "lua_ls",
         })
     end,
 }

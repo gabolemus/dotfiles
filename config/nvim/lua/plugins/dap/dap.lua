@@ -4,10 +4,18 @@ return {
         config = function()
             local dap = require("dap")
 
-            -- Rust
+            -- --- Rust (CodeLLDB) - your current setup ---
             local dap_rust = require("plugins.dap.configs.rust")
             dap.adapters.codelldb = dap_rust.adapter
             dap.configurations.rust = dap_rust.debugger
+
+            -- --- Rust (GDB + rust-gdb) - NEW ---
+            local dap_rust_gdb = require("plugins.dap.configs.rust_gdb")
+            dap.adapters.cppdbg = dap_rust_gdb.adapter
+            -- Append GDB configs so you can pick them in :DapContinue
+            for _, cfg in ipairs(dap_rust_gdb.debugger) do
+                table.insert(dap.configurations.rust, cfg)
+            end
 
             -- NodeJS
             local dap_nodejs = require("plugins.dap.configs.nodejs")
@@ -15,6 +23,24 @@ return {
             for _, language in ipairs({ "typescript", "javascript" }) do
                 dap.configurations[language] = dap_nodejs.debugger
             end
+
+            -- C# (NetcoreDBG)
+            dap.adapters.coreclr = {
+                type = "executable",
+                command = os.getenv("HOME") .. "/.local/share/nvim/mason/packages" .. "/netcoredbg/netcoredbg",
+                args = { "--interpreter=vscode" },
+            }
+
+            dap.configurations.cs = {
+                {
+                    type = "coreclr",
+                    name = "launch - netcoredbg",
+                    request = "launch",
+                    program = function()
+                        return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
+                    end,
+                },
+            }
 
             -- Lua debug configuration
             dap.adapters["local-lua"] = {

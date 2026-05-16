@@ -1,12 +1,13 @@
 return {
     "RRethy/vim-illuminate",
+    enabled = false,
     config = function()
         vim.cmd("hi IlluminatedWordRead guibg=#3a425c")
 
         require("illuminate").configure({
             providers = {
                 "lsp",
-                "treesitter",
+                -- "treesitter",
                 "regex",
             },
             delay = 100, -- Delay in milliseconds

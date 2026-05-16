@@ -1,30 +1,33 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
     dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
-        require("nvim-treesitter.configs").setup({
-            ensure_installed = {
-                "c",
-                "lua",
-                "vim",
-                "vimdoc",
-                "query",
-                "rust",
-                "gitignore",
-                "markdown",
-                "markdown_inline",
-                "json",
-                "javascript",
-                "typescript",
-                "tsx",
-                "html",
-                "css",
-                "scss",
-            },
+        require("nvim-treesitter").install({
+            "c",
+            "lua",
+            "vim",
+            "vimdoc",
+            "query",
+            "rust",
+            "gitignore",
+            "python",
+            "markdown",
+            "markdown_inline",
+            "json",
+            "javascript",
+            "typescript",
+            "tsx",
+            "html",
+            "css",
+            "scss",
+        })
+
+        require("nvim-treesitter.config").setup({
             sync_install = false,
             auto_install = true,
             highlight = {
@@ -51,7 +54,7 @@ return {
                     },
                     selection_modes = {
                         ["@parameter.outer"] = "v", -- charwise
-                        ["@function.outer"] = "V",  -- linewise
+                        ["@function.outer"] = "V", -- linewise
                         ["@class.outer"] = "<c-v>", -- blockwise
                     },
                     include_surrounding_whitespace = true,

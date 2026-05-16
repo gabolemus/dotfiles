@@ -1,4 +1,5 @@
 # [ Global Config ]
+#
 # max no of notification in buffer
 max-history=5
 
@@ -86,6 +87,7 @@ ignore-timeout=0
 
 # Set maximum number of visible notifications
 max-visible=5
+#max-visible=0
 
 # Arrange mako at the specified layer, relative to normal windows.(value: background, bottom, top, overlay )
 layer=top

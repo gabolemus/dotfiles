@@ -20,6 +20,7 @@ return {
                 markdown = { "prettier" },
                 lua = { "stylua" },
                 python = { "isort", "autopep8" },
+                c = { "clang-format" },
                 cpp = { "clang-format" },
                 tex = { "tex-fmt" },
             },

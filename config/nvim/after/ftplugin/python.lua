@@ -4,7 +4,7 @@ vim.opt_local.ruler = true
 vim.opt.colorcolumn = "80"
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "rust" },
+    pattern = { "python" },
     callback = function()
         vim.treesitter.start()
     end,

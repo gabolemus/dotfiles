@@ -49,6 +49,7 @@ cursor {
     no_warps = false
     persistent_warps = true
     warp_on_change_workspace = true
+    no_hardware_cursors = 1
 }
 
 # https://wiki.hyprland.org/Configuring/Variables/#decoration
@@ -118,7 +119,7 @@ animations {
 
 # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
 dwindle {
-    pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    #pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
     preserve_split = true # You probably want this
 }
 
@@ -146,6 +147,8 @@ input {
     kb_model =
     kb_options = caps:swapescape
     kb_rules =
+
+    numlock_by_default = true
 
     follow_mouse = 1
 
@@ -190,7 +193,33 @@ source = $HOME/.config/hypr/conf/keybindings.conf
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 
 # Ignore maximize requests from apps. You'll probably like this.
-windowrulev2 = suppressevent maximize, class:.*
+windowrule {
+    # Ignore maximize requests from all apps. You'll probably like this.
+    name = suppress-maximize-events
+    match:class = .*
 
-# Fix some dragging issues with XWayland
-windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+    suppress_event = maximize
+}
+
+windowrule {
+    # Fix some dragging issues with XWayland
+    name = fix-xwayland-drags
+    match:class = ^$
+    match:title = ^$
+    match:xwayland = true
+    match:float = true
+    match:fullscreen = false
+    match:pin = false
+
+    no_focus = true
+}
+
+# Hyprland-run windowrule
+windowrule {
+    name = move-hyprland-run
+
+    match:class = hyprland-run
+
+    move = 20 monitor_h-120
+    float = yes
+}

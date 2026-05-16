@@ -2,12 +2,13 @@ return {
     "hrsh7th/nvim-cmp",
     -- event = "InsertEnter",
     dependencies = {
-        "hrsh7th/cmp-buffer",           -- Source for text in buffer
-        "hrsh7th/cmp-path",             -- Source for file system paths
-        "L3MON4D3/LuaSnip",             -- Snippet engine
-        "saadparwaiz1/cmp_luasnip",     -- For autocompletion
+        "hrsh7th/cmp-buffer", -- Source for text in buffer
+        "hrsh7th/cmp-path", -- Source for file system paths
+        "hrsh7th/cmp-nvim-lsp", -- Source for LSP client
+        "L3MON4D3/LuaSnip", -- Snippet engine
+        "saadparwaiz1/cmp_luasnip", -- For autocompletion
         "rafamadriz/friendly-snippets", -- Useful snippets
-        "onsails/lspkind.nvim",         -- VS Code like pictograms
+        "onsails/lspkind.nvim", -- VS Code like pictograms
     },
     config = function()
         local cmp = require("cmp")
@@ -46,16 +47,16 @@ return {
                 ["<C-b>"] = cmp.mapping.scroll_docs(-5),
                 ["<C-f>"] = cmp.mapping.scroll_docs(5),
                 ["<C-Space>"] = cmp.mapping.complete(), -- Show completion suggestions
-                ["<C-e>"] = cmp.mapping.abort(),        -- Close completion window
-                ["<CR>"] = cmp.mapping.confirm({ select = false }),
-                -- -- Jump to next placeholder in snippet
-                -- ["<Tab>"] = function(fallback)
-                --     if luasnip.jumpable(1) then
-                --         luasnip.jump(1)
-                --     else
-                --         fallback()
-                --     end
-                -- end,
+                ["<C-e>"] = cmp.mapping.abort(), -- Close completion window
+                ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                -- Jump to next placeholder in snippet
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                    if luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
                 -- -- Jump to previous placeholder in snippet
                 -- ["<S-Tab>"] = function(fallback)
                 --     if luasnip.jumpable(-1) then
@@ -68,10 +69,10 @@ return {
             -- Sources for autocompletion
             sources = cmp.config.sources({
                 { name = "nvim_lsp" }, -- LSP
-                { name = "luasnip" },  -- Snippets
-                { name = "buffer" },   -- Text within current buffer
-                { name = "path" },     -- File system paths
-                { name = "crates" },   -- Rust crates
+                { name = "luasnip" }, -- Snippets
+                { name = "buffer" }, -- Text within current buffer
+                { name = "path" }, -- File system paths
+                { name = "crates" }, -- Rust crates
             }),
             -- Configure lspkind for VS Code like pictograms in completion menu
             formatting = {

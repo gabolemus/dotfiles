@@ -76,3 +76,6 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 
 -- Initialize color on startup
 update_cursorline_color()
+
+-- Set borders to be rounded
+vim.o.winborder = "rounded"

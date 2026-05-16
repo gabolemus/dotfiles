@@ -1,0 +1,77 @@
+------------------
+---- MONITORS ----
+------------------
+
+require("conf.monitors")
+
+-------------------
+---- AUTOSTART ----
+-------------------
+
+require("conf.autostart")
+
+-------------------------------
+---- ENVIRONMENT VARIABLES ----
+-------------------------------
+
+hl.env("XCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "breeze_cursors")
+hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "breeze_cursors")
+hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+
+-----------------------
+---- LOOK AND FEEL ----
+-----------------------
+
+require("conf.general")
+
+hl.config({
+	cursor = {
+		persistent_warps = true,
+		warp_on_change_workspace = 1,
+	},
+
+	decoration = {
+		rounding = 7,
+
+		shadow = {
+			color = "rgba(1a1a1aee)",
+		},
+
+		blur = {
+			size = 5,
+		},
+	},
+})
+
+-- TODO: configure the animations
+-- TODO: check if the layouts need to be configured
+
+---------------
+---- INPUT ----
+---------------
+
+hl.config({
+	input = {
+		kb_layout = "us,latam",
+		kb_variant = "altgr-intl",
+		kb_options = "caps:swapescape",
+
+		numlock_by_default = true,
+
+		touchpad = {
+			natural_scroll = true,
+		},
+	},
+})
+
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+hl.gesture({ fingers = 3, direction = "down", mods = "ALT", action = "close" })
+
+---------------------
+---- KEYBINDINGS ----
+---------------------
+
+require("conf.keybindings")
