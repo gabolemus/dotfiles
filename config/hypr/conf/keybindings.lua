@@ -14,6 +14,10 @@ local displaySettings = "nwg-displays"
 
 local mainMod = "SUPER" -- Sets the "Windows" key as main modifier
 
+---------------------
+---- KEYBINDINGS ----
+---------------------
+
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
