@@ -26,27 +26,8 @@ hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 -----------------------
 
 require("conf.general")
-
-hl.config({
-	cursor = {
-		persistent_warps = true,
-		warp_on_change_workspace = 1,
-		no_hardware_cursors = 1,
-	},
-
-	decoration = {
-		rounding = 7,
-		inactive_opacity = 0.85,
-
-		shadow = {
-			color = "rgba(1a1a1aee)",
-		},
-
-		blur = {
-			size = 5,
-		},
-	},
-})
+require("conf.cursor")
+require("conf.decoration")
 
 -- TODO: configure the animations
 -- TODO: check if the layouts need to be configured
