@@ -21,7 +21,10 @@ local mainMod = "SUPER" -- Sets the "Windows" key as main modifier
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + CTRL + SHIFT + Q", hl.dsp.exit())
+hl.bind(
+	mainMod .. " + CTRL + SHIFT + Q",
+	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
+)
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd(menu .. menu_windows_provider))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
