@@ -45,6 +45,7 @@ hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("cliphist wipe"))
 
 -- Change layouts
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + M", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Helpful scripts
 hl.bind(mainMod .. " + V", function()
