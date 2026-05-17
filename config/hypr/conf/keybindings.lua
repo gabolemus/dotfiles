@@ -48,13 +48,9 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + M", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Helpful scripts
-hl.bind(mainMod .. " + V", function()
-	toggle_mullvad()
-end)
+hl.bind(mainMod .. " + V", toggle_mullvad)
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("mullvad-vpn"))
-hl.bind(mainMod .. " + O", function()
-	toggle_inactive_opacity()
-end)
+hl.bind(mainMod .. " + O", toggle_inactive_opacity)
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
