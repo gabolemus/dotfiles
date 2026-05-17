@@ -4,6 +4,7 @@ monitors.conf
 workspaces.conf
 conf/borders.conf
 conf/inactive_window_transparency.conf
+borders.lua
 
 # Custom wallpapers
 media/
