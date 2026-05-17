@@ -1,4 +1,4 @@
-function toggle_mullvad()
+local function toggle()
 	local handle = io.popen("mullvad status")
 	if not handle then
 		return
@@ -17,3 +17,9 @@ function toggle_mullvad()
 		hl.exec_cmd("notify-send 'Mullvad' 'Unrecognized status: " .. tostring(status) .. "'")
 	end
 end
+
+local M = {}
+
+M.toggle = toggle
+
+return M

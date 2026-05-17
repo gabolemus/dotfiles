@@ -1,24 +1,28 @@
-require("conf.utils.globals")
+local globals = require("conf.utils.globals")
+
+local icons_dir = globals.icons_dir
+local cmd_output = globals.cmd_output
+local notify = globals.notify
 
 local function get_volume()
-	return tonumber(CMD_OUTPUT("pamixer --get-volume")) or 0
+	return tonumber(cmd_output("pamixer --get-volume")) or 0
 end
 
 local function get_volume_icon(volume)
 	if volume == 0 then
-		return ICON_DIR .. "/volume-mute.png"
+		return icons_dir .. "/volume-mute.png"
 	elseif volume <= 30 then
-		return ICON_DIR .. "/volume-low.png"
+		return icons_dir .. "/volume-low.png"
 	elseif volume <= 60 then
-		return ICON_DIR .. "/volume-mid.png"
+		return icons_dir .. "/volume-mid.png"
 	else
-		return ICON_DIR .. "/volume-high.png"
+		return icons_dir .. "/volume-high.png"
 	end
 end
 
 local function change_volume(args)
-	local volume = tonumber(CMD_OUTPUT("pamixer " .. args .. " && pamixer --get-volume")) or 0
-	NOTIFY(get_volume_icon(volume), string.format("Volume: %d%%", volume))
+	local volume = tonumber(cmd_output("pamixer " .. args .. " && pamixer --get-volume")) or 0
+	notify(get_volume_icon(volume), string.format("Volume: %d%%", volume))
 end
 
 local function increase_volume()
@@ -30,24 +34,24 @@ local function decrease_volume()
 end
 
 local function toggle_mute()
-	local muted = CMD_OUTPUT("pamixer --get-mute")
+	local muted = cmd_output("pamixer --get-mute")
 
 	if muted == "false" then
 		hl.exec_cmd("pamixer -m")
-		NOTIFY(ICON_DIR .. "/volume-mute.png", "Volume Switched OFF")
+		notify(icons_dir .. "/volume-mute.png", "Volume Switched OFF")
 	elseif muted == "true" then
 		hl.exec_cmd("pamixer -u")
-		NOTIFY(get_volume_icon(get_volume()), "Volume Switched ON")
+		notify(get_volume_icon(get_volume()), "Volume Switched ON")
 	end
 end
 
 local function get_mic_volume()
-	return tonumber(CMD_OUTPUT("pamixer --default-source --get-volume")) or 0
+	return tonumber(cmd_output("pamixer --default-source --get-volume")) or 0
 end
 
 local function notify_mic_volume()
 	local volume = get_mic_volume()
-	NOTIFY(ICON_DIR .. "/microphone.png", string.format("Mic-Level: %d%%", volume))
+	notify(icons_dir .. "/microphone.png", string.format("Mic-Level: %d%%", volume))
 end
 
 local function increase_mic_volume()
@@ -61,14 +65,14 @@ local function decrease_mic_volume()
 end
 
 local function toggle_mic()
-	local muted = CMD_OUTPUT("pamixer --default-source --get-mute")
+	local muted = cmd_output("pamixer --default-source --get-mute")
 
 	if muted == "false" then
 		hl.exec_cmd("pamixer --default-source -m")
-		NOTIFY(ICON_DIR .. "/microphone-mute.png", "Microphone Switched OFF")
+		notify(icons_dir .. "/microphone-mute.png", "Microphone Switched OFF")
 	elseif muted == "true" then
 		hl.exec_cmd("pamixer --default-source -u")
-		NOTIFY(ICON_DIR .. "/microphone.png", "Microphone Switched ON")
+		notify(icons_dir .. "/microphone.png", "Microphone Switched ON")
 	end
 end
 

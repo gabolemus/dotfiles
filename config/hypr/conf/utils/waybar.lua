@@ -11,7 +11,7 @@ local function is_waybar_running()
 	return result ~= nil and result ~= ""
 end
 
-function TOGGLE_WAYBAR()
+local function toggle_waybar()
 	if is_waybar_running() then
 		os.execute("pkill -SIGUSR1 waybar")
 	else
@@ -19,6 +19,13 @@ function TOGGLE_WAYBAR()
 	end
 end
 
-function RELOAD_WAYBAR()
+local function reload_waybar()
 	os.execute("pkill -SIGUSR2 waybar")
 end
+
+local M = {}
+
+M.toggle = toggle_waybar
+M.reload = reload_waybar
+
+return M

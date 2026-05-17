@@ -1,7 +1,7 @@
 local inactive_opacity = hl.get_config("decoration.inactive_opacity")
 local dim_inactive = hl.get_config("decoration.dim_inactive")
 
-function toggle_inactive_opacity()
+local function toggle_inactive_opacity()
 	if inactive_opacity == 0.85 then
 		inactive_opacity = 1.0
 	else
@@ -19,3 +19,9 @@ function toggle_inactive_opacity()
 
 	hl.exec_cmd(string.format("notify-send 'Hyprland' 'Inactive opacity: %.2f'", inactive_opacity))
 end
+
+local M = {}
+
+M.toggle = toggle_inactive_opacity
+
+return M

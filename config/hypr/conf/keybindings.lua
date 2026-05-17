@@ -1,4 +1,4 @@
-require("conf.utils.utils")
+local utils = require("conf.utils.utils")
 -- require("scripts.set_wallpaper")
 
 ---------------------
@@ -48,9 +48,9 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + M", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Helpful scripts
-hl.bind(mainMod .. " + V", toggle_mullvad)
+hl.bind(mainMod .. " + V", utils.vpn.toggle)
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("mullvad-vpn"))
-hl.bind(mainMod .. " + O", toggle_inactive_opacity)
+hl.bind(mainMod .. " + O", utils.window_opacity.toggle)
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
@@ -94,18 +94,18 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- TODO: find out how to do this
 
 -- Volume
-hl.bind("XF86AudioRaiseVolume", increase_volume)
-hl.bind("XF86AudioLowerVolume", decrease_volume)
-hl.bind("XF86AudioMicMute", toggle_mic)
-hl.bind("XF86AudioMute", toggle_mute)
+hl.bind("XF86AudioRaiseVolume", utils.vol.increase_volume)
+hl.bind("XF86AudioLowerVolume", utils.vol.decrease_volume)
+hl.bind("XF86AudioMicMute", utils.vol.toggle_mic)
+hl.bind("XF86AudioMute", utils.vol.toggle_mute)
 
 -- Screen brightness
-hl.bind("XF86MonBrightnessUp", increase_brightness)
-hl.bind("XF86MonBrightnessDown", decrease_brightness)
+hl.bind("XF86MonBrightnessUp", utils.brightness.increase_brightness)
+hl.bind("XF86MonBrightnessDown", utils.brightness.decrease_brightness)
 
 -- Waybar
-hl.bind(mainMod .. " + W", TOGGLE_WAYBAR)
-hl.bind(mainMod .. " + SHIFT + W", RELOAD_WAYBAR)
+hl.bind(mainMod .. " + W", utils.waybar.toggle)
+hl.bind(mainMod .. " + SHIFT + W", utils.waybar.reload)
 
 -- Hyprpaper (Wallpapers)
 hl.bind(mainMod .. " + CTRL + SHIFT + W", utils.wallpaper.set_random)

@@ -1,6 +1,6 @@
-ICON_DIR = os.getenv("HOME") .. "/.config/mako/icons"
+local icons_dir = os.getenv("HOME") .. "/.config/mako/icons"
 
-function CMD_OUTPUT(cmd)
+local function cmd_output(cmd)
 	local handle = io.popen(cmd)
 	if not handle then
 		return nil
@@ -12,7 +12,7 @@ function CMD_OUTPUT(cmd)
 	return result
 end
 
-function NOTIFY(icon, message)
+local function notify(icon, message)
 	hl.exec_cmd(
 		string.format(
 			"notify-send -t 5000 -h string:x-canonical-private-synchronous:sys-notify -u low -i %q %q",
@@ -21,3 +21,11 @@ function NOTIFY(icon, message)
 		)
 	)
 end
+
+local M = {}
+
+M.icons_dir = icons_dir
+M.cmd_output = cmd_output
+M.notify = notify
+
+return M
