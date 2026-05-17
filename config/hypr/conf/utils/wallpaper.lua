@@ -88,25 +88,7 @@ local function set_new_hyprpaper_cfg(wallpaper)
 	end
 end
 
-local function set_local_borders(wallpaper)
-	local key = tostring(wallpaper)
-	local active = active_colors[key]
-	local inactive = inactive_colors[key]
-
-	hl.config({
-		general = {
-			col = {
-				active_border = {
-					colors = { active.colors[1], active.colors[2] },
-					angle = active.angle,
-				},
-				inactive_border = inactive,
-			},
-		},
-	})
-end
-
-local function write_borders_to_file(wallpaper)
+local function set_borders(wallpaper)
 	local key = tostring(wallpaper)
 	local active = active_colors[key]
 	local inactive = inactive_colors[key]
@@ -136,11 +118,6 @@ hl.config({
 	else
 		io.stderr("Error: Could not open the Hyprpaper config file at: " .. hyprpaper_conf)
 	end
-end
-
-local function set_borders(wallpaper)
-	set_local_borders(wallpaper)
-	write_borders_to_file(wallpaper)
 end
 
 local function set_wallpaper()
