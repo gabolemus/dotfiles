@@ -108,8 +108,8 @@ hl.bind(mainMod .. " + W", TOGGLE_WAYBAR)
 hl.bind(mainMod .. " + SHIFT + W", RELOAD_WAYBAR)
 
 -- Hyprpaper (Wallpapers)
--- hl.bind(mainMod .. " + CTRL + SHIFT + W", set_wallpaper)
-hl.bind(mainMod .. " + CTRL + SHIFT + W", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/set_wallpaper.sh"))
+hl.bind(mainMod .. " + CTRL + SHIFT + W", utils.wallpaper.set_random)
+-- hl.bind(mainMod .. " + CTRL + SHIFT + W", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/set_wallpaper.sh"))
 
 -- Requires playerctl
 -- TODO: replace the keybinds to other keys
