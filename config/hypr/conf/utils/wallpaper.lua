@@ -102,8 +102,7 @@ hl.config({
 			inactive_border = %q,
 		},
 	},
-})
-]],
+})]],
 		active.colors[1],
 		active.colors[2],
 		active.angle,
