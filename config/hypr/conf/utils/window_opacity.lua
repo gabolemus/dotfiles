@@ -17,5 +17,5 @@ function toggle_inactive_opacity()
 		},
 	})
 
-	-- hl.exec_cmd(string.format("notify-send 'Hyprland' 'Inactive opacity: %.2f'", inactive_opacity))
+	hl.exec_cmd(string.format("notify-send 'Hyprland' 'Inactive opacity: %.2f'", inactive_opacity))
 end
