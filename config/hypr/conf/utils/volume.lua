@@ -21,15 +21,15 @@ local function change_volume(args)
 	NOTIFY(get_volume_icon(volume), string.format("Volume: %d%%", volume))
 end
 
-function increase_volume()
+local function increase_volume()
 	change_volume("-i 2")
 end
 
-function decrease_volume()
+local function decrease_volume()
 	change_volume("-d 2")
 end
 
-function toggle_mute()
+local function toggle_mute()
 	local muted = CMD_OUTPUT("pamixer --get-mute")
 
 	if muted == "false" then
@@ -50,17 +50,17 @@ local function notify_mic_volume()
 	NOTIFY(ICON_DIR .. "/microphone.png", string.format("Mic-Level: %d%%", volume))
 end
 
-function increase_mic_volume()
+local function increase_mic_volume()
 	hl.exec_cmd("pamixer --default-source -i 2")
 	notify_mic_volume()
 end
 
-function decrease_mic_volume()
+local function decrease_mic_volume()
 	hl.exec_cmd("pamixer --default-source -d 2")
 	notify_mic_volume()
 end
 
-function toggle_mic()
+local function toggle_mic()
 	local muted = CMD_OUTPUT("pamixer --default-source --get-mute")
 
 	if muted == "false" then
@@ -71,3 +71,14 @@ function toggle_mic()
 		NOTIFY(ICON_DIR .. "/microphone.png", "Microphone Switched ON")
 	end
 end
+
+local M = {}
+
+M.increase_volume = increase_volume
+M.decrease_volume = decrease_volume
+M.toggle_mute = toggle_mute
+M.increase_mic_volume = increase_mic_volume
+M.decrease_mic_volume = decrease_mic_volume
+M.toggle_mic = toggle_mic
+
+return M
