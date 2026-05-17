@@ -1,5 +1,3 @@
-local globals = require("conf.utils.globals")
-
 math.randomseed(os.time())
 
 local home = os.getenv("HOME")
@@ -80,8 +78,6 @@ local function set_new_hyprpaper_cfg(wallpaper)
 		new_hyprpaper_cfg = new_hyprpaper_cfg .. get_wallpaper_cfg_for_monitor(wallpaper, monitor)
 	end
 
-	print(new_hyprpaper_cfg)
-
 	local file = io.open(hyprpaper_conf, "w")
 
 	if file then
@@ -150,15 +146,11 @@ end
 local function set_wallpaper()
 	local current, err = get_wallpaper_number()
 	if current then
-		print("Current: " .. current)
 		local new_wallpaper = pick_new_wallpaper(current)
-		print("New wallpaper: " .. new_wallpaper)
-		globals.notify("", "Setting wallpaper to: " .. new_wallpaper)
 
 		set_new_hyprpaper_cfg(new_wallpaper)
 		set_borders(new_wallpaper)
 	else
-		print("Error: ", err)
 		io.stderr:write("Error: " .. err)
 	end
 
