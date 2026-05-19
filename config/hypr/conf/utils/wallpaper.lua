@@ -129,9 +129,6 @@ local function set_wallpaper()
 	else
 		io.stderr:write("Error: " .. err)
 	end
-
-	os.execute("pkill -x hyprpaper >/dev/null 2>&1 || true")
-	os.execute("hyprpaper >/dev/null 2>&1 &")
 end
 
 local M = {}
