@@ -20,6 +20,7 @@ hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_THEME", "breeze_cursors")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu:/dev/dri/amd-dgpu")
 
 -----------------------
 ---- LOOK AND FEEL ----
