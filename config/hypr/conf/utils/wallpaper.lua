@@ -119,6 +119,16 @@ hl.config({
 	end
 end
 
+local function apply_wallpaper(wallpaper)
+	local path = wallpaperdir .. string.format("/wallpaper-%s.jpg", wallpaper)
+
+	for _, monitor in ipairs(monitors) do
+		os.execute(
+			string.format("hyprctl hyprpaper wallpaper %q >/dev/null 2>&1", monitor .. ", " .. path .. ", " .. fit_mode)
+		)
+	end
+end
+
 local function set_wallpaper()
 	local current, err = get_wallpaper_number()
 	if current then
@@ -126,6 +136,7 @@ local function set_wallpaper()
 
 		set_new_hyprpaper_cfg(new_wallpaper)
 		set_borders(new_wallpaper)
+		apply_wallpaper(new_wallpaper)
 	else
 		io.stderr:write("Error: " .. err)
 	end
